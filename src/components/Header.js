@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { firebaseApp } from "../index";
 
 function Header(props) {
   return (
@@ -18,6 +19,8 @@ function Header(props) {
           </Link>
         </div>
       </div>
+
+      {JSON.stringify(firebaseApp.options, null, 2)}
     </header>
   );
 }

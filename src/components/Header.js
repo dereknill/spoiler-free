@@ -19,8 +19,6 @@ function Header(props) {
           </Link>
         </div>
       </div>
-
-      {JSON.stringify(firebaseApp.options, null, 2)}
     </header>
   );
 }

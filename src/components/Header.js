@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { firebaseApp } from "../index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import MainLogo from "./MainLogo";

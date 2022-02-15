@@ -13,7 +13,7 @@ function Header(props) {
           </div>
 
           <div className='flex items-center shrink'>
-            <span className='text-white text-xl lg:text-4xl tracking-tighter'>
+            <span className='text-white text-2xl lg:text-4xl tracking-tighter'>
               Spoilerphobia
             </span>
           </div>

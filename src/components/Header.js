@@ -5,15 +5,15 @@ import MainLogo from "./MainLogo";
 
 function Header(props) {
   return (
-    <header className='w-full mx-auto flex justify-center bg-zinc-800 py-2 '>
+    <header className='w-full mx-auto flex justify-center bg-neutral-900 py-2 '>
       <div className='w-full max-w-screen-xl flex justify-between items-center'>
         <div className='flex'>
           <div className='mx-3 w-[30px] lg:w-[50px] shrink-0'>
             <MainLogo />
           </div>
 
-          <div>
-            <span className='text-white text-2xl lg:text-5xl tracking-tighter'>
+          <div className='flex items-center shrink'>
+            <span className='text-white text-xl lg:text-4xl tracking-tighter'>
               Spoilerphobia
             </span>
           </div>
@@ -31,16 +31,16 @@ function Header(props) {
             ></FontAwesomeIcon>
           </div>
         </div>
-        <div className='ml-6 flex items-center'>
+        <div className='flex items-center'>
           <div className='text-xl text-white mx-6 flex items-center md:hidden'>
             <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
           </div>
-          <Link to='/login'>
+          <Link to='/login' className='hidden md:inline-block'>
             <span className='text-white hover:underline text-base lg:text-xl whitespace-nowrap'>
               Sign In
             </span>
           </Link>
-          <div className='text-3xl text-white mx-6 flex items-center'>
+          <div className='text-3xl text-white mx-3 md:mx-8 flex items-center'>
             <FontAwesomeIcon icon={faBars}></FontAwesomeIcon>
           </div>
         </div>

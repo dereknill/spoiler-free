@@ -44,6 +44,7 @@ function PosterCarousel(props) {
           src={`https://image.tmdb.org/t/p/w200${entry.poster_path}`}
           key={`popular${entry.name}`}
           alt={entry.name}
+          loading='lazy'
         ></img>
       );
     });
@@ -53,14 +54,17 @@ function PosterCarousel(props) {
     return null;
   }
   return (
-    <section className='w-full'>
-      <h2 className='text-4xl my-4 text-center font-bold'>Popular</h2>
+    <section className='w-full bg-black w-11/12 mx-auto rounded-xl my-5 py-3 shadow-lg shadow-neutral-500'>
+      <h2 className='text-4xl pl-20 mb-3 text-neonred font-bold'>Popular</h2>
       <Carousel
         responsive={responsive}
         infinite={false}
         className='w-full mx-auto'
         itemClass='px-2'
-        containerClass='px-5 bg-black'
+        containerClass='bg-black w-11/12'
+        renderButtonGroupOutside={true}
+        showDots={true}
+        centerMode={true}
       >
         {getImages(data)}
       </Carousel>

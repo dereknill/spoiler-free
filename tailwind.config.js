@@ -6,6 +6,9 @@ module.exports = {
         roboto: ["Roboto", "sans-serif"],
         baskerville: ['"Libre Baskerville"', "serif"],
       },
+      colors: {
+        neonred: "#FF3131",
+      },
     },
   },
   plugins: [],

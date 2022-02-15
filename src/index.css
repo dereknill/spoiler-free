@@ -6,6 +6,8 @@
   .darker-bg {
     background-image: linear-gradient(rgba(0, 0, 0, 0.3) 0 0);
   }
+  .slides {
+  }
   @variants responsive {
     .text-shadow {
       text-shadow: 2px 2px 4px black;

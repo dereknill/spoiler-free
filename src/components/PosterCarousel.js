@@ -3,7 +3,6 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 function PosterCarousel(props) {
-  const { title } = props;
   const [data, setData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const responsive = {

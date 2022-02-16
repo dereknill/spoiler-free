@@ -5,7 +5,7 @@ import MainLogo from "./MainLogo";
 
 function Header(props) {
   return (
-    <header className='w-full mx-auto flex justify-center bg-neutral-900 py-2 '>
+    <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 '>
       <div className='w-full max-w-screen-xl flex justify-between items-center'>
         <div className='flex'>
           <div className='mx-3 w-[30px] lg:w-[50px] shrink-0'>
@@ -13,7 +13,7 @@ function Header(props) {
           </div>
 
           <div className='flex items-center shrink'>
-            <span className='text-neonred text-2xl lg:text-4xl tracking-tighter'>
+            <span className='text-white text-2xl lg:text-4xl tracking-tighter'>
               Spoilerphobia
             </span>
           </div>

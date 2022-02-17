@@ -15,6 +15,8 @@ const firebaseConfig = {
 
 export const firebaseApp = initializeApp(firebaseConfig);
 
+export const apiKey = "1fc19e2dfd89d668063919143edc6e68";
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

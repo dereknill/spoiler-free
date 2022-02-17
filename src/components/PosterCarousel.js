@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { apiKey } from "../index.js";
 
 function PosterCarousel(props) {
   const [data, setData] = useState([]);
@@ -33,15 +34,15 @@ function PosterCarousel(props) {
   };
 
   const ref = useRef(null);
+
   useEffect(() => {
     fetch(
-      "https://api.themoviedb.org/3/tv/popular?api_key=1fc19e2dfd89d668063919143edc6e68&language=en-US&page=1"
+      `https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=en-US&page=1`
     )
       .then((response) => response.json())
       .then((apiData) => {
         setData(apiData.results);
         setIsLoaded(true);
-        console.log(apiData.results);
         const carousel = ref.current;
         carousel.goToSlide(1);
       });
@@ -66,7 +67,7 @@ function PosterCarousel(props) {
     return null;
   }
   return (
-    <section className='w-full bg-black w-11/12 mx-auto rounded-xl my-5 py-3 shadow-lg shadow-black'>
+    <section className='w-full bg-black w-11/12 mx-auto rounded-lg my-5 py-3 shadow-lg shadow-slate-800'>
       <h2 className='text-4xl pl-20 mb-3 text-white font-bold'>Popular</h2>
       <Carousel
         responsive={responsive}
@@ -79,6 +80,7 @@ function PosterCarousel(props) {
         ref={ref}
         minimumTouchDrag={30}
         draggable={false}
+        removeArrowOnDeviceType={["mobile"]}
       >
         {getImages(data)}
       </Carousel>

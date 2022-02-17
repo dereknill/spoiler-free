@@ -30,11 +30,18 @@ function MainBackdrop(props) {
   }
   return (
     <section
-      className={"w-full h-96 rounded-t-2xl relative bg-cover brightness-[0.3]"}
+      className={
+        "w-full h-48 bg-black sm:h-64 md:h-96 rounded-t-2xl grayscale relative bg-cover"
+      }
       style={{
         backgroundImage: `url(${bgUrl})`,
       }}
-    ></section>
+    >
+      <div className='w-full rounded-t-2xl h-full bg-black/50 flex justify-center gap-1 flex-col items-center text-white font-crimson font-extralight text-2xl sm:text-3xl lg:text-6xl'>
+        <div>Discuss your favorite shows</div>
+        <div className='font-bold'>Spoiler Free</div>
+      </div>
+    </section>
   );
 }
 

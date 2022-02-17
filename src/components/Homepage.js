@@ -1,7 +1,6 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import PosterCarousel from "./PosterCarousel";
-import MainLogo from "./MainLogo";
 import MainBackdrop from "./MainBackdrop";
 function Homepage(props) {
   return (

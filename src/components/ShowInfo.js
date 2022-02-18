@@ -2,7 +2,7 @@ import LineBreak from "./utils/LineBreak";
 import { useOutletContext } from "react-router-dom";
 
 function ShowInfo(props) {
-  const [details, setDetails] = useOutletContext();
+  const [details] = useOutletContext();
 
   function getGenres() {
     return details.genres.reduce((prev, current, index) => {

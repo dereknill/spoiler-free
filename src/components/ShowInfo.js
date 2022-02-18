@@ -1,34 +1,8 @@
-import { useParams } from "react-router-dom";
-import { apiKey } from "../index.js";
-import { useState, useEffect } from "react";
 import LineBreak from "./utils/LineBreak";
+import { useOutletContext } from "react-router-dom";
 
 function ShowInfo(props) {
-  const [isReady, setIsReady] = useState(false);
-  const [details, setDetails] = useState(null);
-  const [notFound, setNotFound] = useState(false);
-  const params = useParams();
-
-  useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/tv/${params.id}?api_key=${apiKey}&language=en-US`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Error");
-        } else {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setDetails(data);
-        setIsReady(true);
-        console.log(data);
-      })
-      .catch((error) => {
-        setNotFound(true);
-      });
-  }, [params.id]);
+  const [details, setDetails] = useOutletContext();
 
   function getGenres() {
     return details.genres.reduce((prev, current, index) => {
@@ -43,15 +17,9 @@ function ShowInfo(props) {
     }, "");
   }
 
-  if (notFound) {
-    return "Show not found";
-  }
-  if (!isReady) {
-    return null;
-  }
   return (
-    <div className='my-4 flex justify-center flex-col'>
-      <section className='mx-4'>
+    <div className='my-4 flex justify-center flex-col mx-4'>
+      <section>
         <h2 className='text-3xl font-bold'>{details.name}</h2>
         <h3 className='mx-4'>
           {details.first_air_date.slice(0, 4)} -{" "}
@@ -63,7 +31,7 @@ function ShowInfo(props) {
         src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
         alt='Poster'
       ></img>
-      <section className='mx-4'>
+      <section>
         <h2 className='text-3xl font-bold my-4'>Overview</h2>
         <h3>{details.overview}</h3>
         <LineBreak></LineBreak>

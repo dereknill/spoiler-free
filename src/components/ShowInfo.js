@@ -23,6 +23,7 @@ function ShowInfo(props) {
       .then((data) => {
         setDetails(data);
         setIsReady(true);
+        console.log(data);
       })
       .catch((error) => {
         setNotFound(true);
@@ -32,12 +33,14 @@ function ShowInfo(props) {
   function getGenres() {
     return details.genres.reduce((prev, current, index) => {
       let returns;
-      index !== 1
-        ? (returns = prev + ", " + current.name)
-        : (returns = prev.name);
+
+      returns = prev + current.name;
+      if (index < details.genres.length - 1) {
+        returns += ", ";
+      }
 
       return returns;
-    });
+    }, "");
   }
 
   if (notFound) {
@@ -55,6 +58,7 @@ function ShowInfo(props) {
           {details.status === "Ended" ? details.last_air_date.slice(0, 4) : ""}
         </h3>
       </section>
+
       <img
         src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
         alt='Poster'

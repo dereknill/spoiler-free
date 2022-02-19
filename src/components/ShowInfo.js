@@ -36,7 +36,7 @@ function ShowInfo(props) {
       <section>
         <h2 className='text-3xl font-bold my-4'>Overview</h2>
         <h3>{details.overview}</h3>
-        <LineBreak></LineBreak>
+        <LineBreak type='margin-4'></LineBreak>
         <h2 className='text-3xl font-bold my-4'>Genres</h2>
         <h3>{getGenres()}</h3>
       </section>

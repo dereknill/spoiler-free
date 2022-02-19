@@ -65,7 +65,7 @@ function Search(props) {
               </div>
             </button>
           </Link>
-          <LineBreak></LineBreak>
+          <LineBreak type='margin-4'></LineBreak>
         </div>
       );
     });

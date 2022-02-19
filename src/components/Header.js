@@ -17,6 +17,12 @@ function Header(props) {
     navigate(`/search/${query}`);
   }
 
+  function handleMenuClick(event) {
+    event.preventDefault();
+    props.setFaded(true);
+    props.setMenuActive(true);
+  }
+
   return (
     <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 fixed z-[10000]'>
       <div className='w-full max-w-screen-xl flex justify-between items-center'>
@@ -64,9 +70,12 @@ function Header(props) {
               Sign In
             </span>
           </Link>
-          <div className='text-3xl text-white mx-3 md:mx-8 flex items-center'>
+          <button
+            className='text-3xl text-white mx-3 md:mx-8 flex items-center'
+            onClick={handleMenuClick}
+          >
             <FontAwesomeIcon icon={faBars}></FontAwesomeIcon>
-          </div>
+          </button>
         </div>
       </div>
     </header>

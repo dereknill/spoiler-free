@@ -22,7 +22,6 @@ function Show(props) {
       .then((data) => {
         setDetails(data);
         setIsReady(true);
-        console.log(data);
       })
       .catch((error) => {
         setNotFound(true);

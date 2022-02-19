@@ -70,7 +70,7 @@ function PosterCarousel(props) {
   }
   return (
     <section className='w-full bg-black w-11/12 mx-auto rounded-lg my-5 py-3 shadow-lg shadow-slate-800'>
-      <h2 className='text-xl md:text-3xl pl-[5%] mb-3 text-white'>
+      <h2 className='text-xl md:text-2xl pl-[5%] mb-3 text-white font-bold'>
         {props.displayTitle}
       </h2>
       <Carousel

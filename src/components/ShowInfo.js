@@ -27,10 +27,12 @@ function ShowInfo(props) {
         </h3>
       </section>
 
-      <img
-        src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
-        alt='Poster'
-      ></img>
+      {details.backdrop_path && (
+        <img
+          src={`https://image.tmdb.org/t/p/original${details.backdrop_path}`}
+          alt='Poster'
+        ></img>
+      )}
       <section>
         <h2 className='text-3xl font-bold my-4'>Overview</h2>
         <h3>{details.overview}</h3>

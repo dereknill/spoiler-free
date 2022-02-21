@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSearch, faX } from "@fortawesome/free-solid-svg-icons";
 import MainLogo from "./MainLogo";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function Header(props) {
   const [query, setQuery] = useState("");

@@ -2,13 +2,11 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 import Menu from "./Menu";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function Page(props) {
   const [faded, setFaded] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
-  const [bottom, setBottom] = useState(0);
-  const [isReady, setIsReady] = useState(false);
 
   return (
     <div>

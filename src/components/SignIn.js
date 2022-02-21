@@ -3,9 +3,16 @@ import { Link, useOutletContext, useNavigate } from "react-router-dom";
 import LineBreak from "./utils/LineBreak";
 
 function SignIn(props) {
-  let [user] = useOutletContext();
+  let [user, setDarkBG] = useOutletContext();
+  setDarkBG(true);
+
   const navigate = useNavigate();
 
+  function handleCreate(event) {
+    event.preventDefault();
+    setDarkBG(false);
+    navigate("/signup");
+  }
   function startSignIn(event) {
     event.preventDefault();
     const email = event.target.email.value;
@@ -14,6 +21,7 @@ function SignIn(props) {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        setDarkBG(false);
         navigate("/");
       })
       .catch((error) => {
@@ -31,7 +39,7 @@ function SignIn(props) {
   }
 
   return (
-    <section className='my-6 w-96 mx-auto max-w-[95%] bg-slate-300 p-5 rounded shadow-lg shadow-black/75'>
+    <section className='my-10 w-96 mx-auto max-w-[95%] bg-slate-300 p-5 rounded shadow-lg shadow-black/75'>
       <h2 className='text-center mb-4 text-xl font-bold'>Sign In</h2>
       <form onSubmit={startSignIn} className='flex flex-col gap-5'>
         <div className='w-full flex flex-col gap-1'>
@@ -72,11 +80,14 @@ function SignIn(props) {
 
       <LineBreak type='margin-10'></LineBreak>
       <h3 className='mb-3 text-center'>Don't have an account yet?</h3>
-      <Link to='/signup'>
-        <button className='bg-slate-600 text-white w-full rounded px-3 py-2 hover:darker-bg'>
-          Create your account
-        </button>
-      </Link>
+
+      <button
+        onClick={handleCreate}
+        className='bg-slate-600 text-white w-full rounded px-3 py-2 hover:darker-bg'
+      >
+        Create your account
+      </button>
+
       {getSignedInDisplay()}
     </section>
   );

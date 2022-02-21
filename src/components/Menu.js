@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import LineBreak from "./utils/LineBreak";
 import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
 function Menu(props) {
   const navigate = useNavigate();
@@ -19,6 +20,13 @@ function Menu(props) {
     navigate(`/browse/${id}/${genre}`);
   }
 
+  function handleSignOut(event) {
+    event.preventDefault();
+    const auth = getAuth();
+    auth.signOut();
+    handleExitMenu(event);
+    navigate("/");
+  }
   return (
     <nav
       className={`fixed right-0 h-screen top-0 w-3/4 max-w-md z-[11000] bg-slate-700 text-white py-4 transition-transform overflow-y-auto ${
@@ -44,7 +52,9 @@ function Menu(props) {
           <LineBreak margin='2'></LineBreak>
           <li className='px-2 font-bold'>Posts</li>
           <LineBreak margin='2'></LineBreak>
-          <li className='px-2 font-bold'>Comments</li>
+          <button onClick={handleSignOut}>
+            <li className='px-2 font-bold'>Sign Out</li>
+          </button>
         </ul>
       </div>
       <h2 className='bg-slate-900 text-center py-2 sm:py-3 mt-4 text-2xl sm:text-2xl font-bold'>

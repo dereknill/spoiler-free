@@ -18,8 +18,8 @@ function ShowInfo(props) {
   }
 
   return (
-    <div className='my-4 flex justify-center flex-col mx-7'>
-      <section>
+    <div className='my-4 flex justify-center flex-col'>
+      <section className='mx-7'>
         <h2 className='text-3xl font-bold'>{details.name}</h2>
         <h3 className='mx-4'>
           {details.first_air_date.slice(0, 4)} -{" "}
@@ -33,7 +33,7 @@ function ShowInfo(props) {
           alt='Poster'
         ></img>
       )}
-      <section>
+      <section className='mx-7'>
         <h2 className='text-xl sm:text-3xl font-bold mt-4 mb-1'>Overview</h2>
         <h3>{details.overview}</h3>
         <LineBreak type='margin-4'></LineBreak>

@@ -104,7 +104,7 @@ function Header(props) {
               <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
             </button>
           </div>
-          <Link to='/login' className='hidden md:inline-block'>
+          <Link to='/signin' className='hidden md:inline-block'>
             <span className='text-white hover:underline text-base lg:text-xl whitespace-nowrap'>
               Sign In
             </span>

@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSearch, faX } from "@fortawesome/free-solid-svg-icons";
 import MainLogo from "./MainLogo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Header(props) {
   const [query, setQuery] = useState("");
+  const [searchActive, setSearchActive] = useState(false);
   const navigate = useNavigate();
 
   function handleInputChange(event) {
@@ -14,7 +15,13 @@ function Header(props) {
 
   function handleSearch(event) {
     event.preventDefault();
+    setSearchActive(false);
     navigate(`/search/${query}`);
+  }
+
+  function handleSearchOverlay(event) {
+    event.preventDefault();
+    setSearchActive(true);
   }
 
   function handleMenuClick(event) {
@@ -23,8 +30,38 @@ function Header(props) {
     props.setMenuActive(true);
   }
 
+  function handleCancelSearch(event) {
+    event.preventDefault();
+    setSearchActive(false);
+  }
   return (
-    <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 fixed z-[10000]'>
+    <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 fixed top-0 z-[10000]'>
+      <div
+        className={`absolute w-full h-full flex items-center justify-center transition-all bg-black top-0 left-0 right-0 ${
+          !searchActive && "-translate-y-full"
+        }`}
+      >
+        <form onSubmit={handleSearch} className='w-full mx-6 relative'>
+          <input
+            type='text'
+            required={true}
+            placeholder='Search TV Shows'
+            onChange={handleInputChange}
+            value={query}
+            className='w-full text-base lg:text-lg pl-2 pr-10 py-1 rounded outline-none focus:shadow-[0_0_0_3px_#1d4ed8]'
+          ></input>
+          <button type='submit'></button>
+          <button
+            onClick={handleCancelSearch}
+            className='absolute right-0 top-0 h-full flex items-center mr-3'
+          >
+            <FontAwesomeIcon
+              icon={faX}
+              className='text-zinc-800 text-lg'
+            ></FontAwesomeIcon>
+          </button>
+        </form>
+      </div>
       <div className='w-full max-w-screen-xl flex justify-between items-center'>
         <div className='flex'>
           <div className='mx-3 w-[30px] lg:w-[50px] shrink-0'>
@@ -52,8 +89,8 @@ function Header(props) {
             className='w-full text-base lg:text-lg pl-2 pr-10 py-1 rounded outline-none focus:shadow-[0_0_0_3px_#1d4ed8]'
           ></input>
           <button
-            type='submit'
             className='absolute right-0 top-0 h-full flex items-center mr-3'
+            type={searchActive ? "" : "submit"}
           >
             <FontAwesomeIcon
               icon={faSearch}
@@ -63,7 +100,9 @@ function Header(props) {
         </form>
         <div className='flex items-center'>
           <div className='text-xl text-white mx-6 flex items-center md:hidden'>
-            <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+            <button onClick={handleSearchOverlay}>
+              <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+            </button>
           </div>
           <Link to='/login' className='hidden md:inline-block'>
             <span className='text-white hover:underline text-base lg:text-xl whitespace-nowrap'>

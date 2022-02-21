@@ -4,6 +4,7 @@ import Homepage from "./components/Homepage";
 import Show from "./components/Show";
 import ShowInfo from "./components/ShowInfo";
 import Search from "./components/Search";
+import Browse from "./components/Browse";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path=':id' element={<ShowInfo></ShowInfo>}></Route>
           </Route>
           <Route path='search/:query' element={<Search></Search>}></Route>
+          <Route path='browse/:id/:genre' element={<Browse></Browse>}></Route>
         </Route>
         <Route path='*' element={<Page />}></Route>
       </Routes>

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { apiKey } from "../index";
 import LineBreak from "./utils/LineBreak";
 
-function Search(props) {
+function Browse(props) {
   const params = useParams();
   const [results, setResults] = useState(null);
   const [isReady, setIsReady] = useState(false);
@@ -11,7 +11,7 @@ function Search(props) {
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&page=1&include_adult=false&query=${params.query}`
+      `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=${params.id}&include_null_first_air_dates=false`
     )
       .then((response) => {
         if (response.ok) {
@@ -33,7 +33,7 @@ function Search(props) {
       });
 
     return setNotFound(false);
-  }, [params.query]);
+  }, [params.id]);
 
   function displaySearchResults(results) {
     return results.map((result) => {
@@ -82,11 +82,10 @@ function Search(props) {
   return (
     <div className='mb-4 flex justify-center flex-col'>
       <h2 className='flex items-center pl-10 w-full bg-slate-400 h-10 rounded-t-2xl'>
-        Search Results: {params.query}
+        Browsing {params.genre}
       </h2>
       <section className='my-4'>{displaySearchResults(results)}</section>
     </div>
   );
 }
-
-export default Search;
+export default Browse;

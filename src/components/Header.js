@@ -1,6 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faSearch, faX } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faSearch,
+  faX,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import MainLogo from "./MainLogo";
 import { useState } from "react";
 
@@ -33,6 +38,29 @@ function Header(props) {
   function handleCancelSearch(event) {
     event.preventDefault();
     setSearchActive(false);
+  }
+
+  function displaySignInOrUser() {
+    if (!props.user) {
+      return (
+        <Link to='/signin' className='hidden md:inline-block'>
+          <span className='text-white hover:underline text-base lg:text-xl whitespace-nowrap'>
+            Sign In
+          </span>
+        </Link>
+      );
+    } else {
+      return (
+        <div className='hidden md:inline mx-5 bg-slate-500 rounded-full h-10 w-10'>
+          <Link
+            to='/'
+            className='w-full h-full flex items-center justify-center text-xl text-white'
+          >
+            <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>
+          </Link>
+        </div>
+      );
+    }
   }
   return (
     <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 fixed top-0 z-[10000]'>
@@ -104,11 +132,7 @@ function Header(props) {
               <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
             </button>
           </div>
-          <Link to='/signin' className='hidden md:inline-block'>
-            <span className='text-white hover:underline text-base lg:text-xl whitespace-nowrap'>
-              Sign In
-            </span>
-          </Link>
+          {displaySignInOrUser()}
           <button
             className='text-3xl text-white mx-3 md:mx-8 flex items-center'
             onClick={handleMenuClick}

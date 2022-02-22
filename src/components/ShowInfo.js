@@ -21,7 +21,7 @@ function ShowInfo(props) {
     <div className='my-4 flex justify-center flex-col'>
       <section className='mx-7'>
         <h2 className='text-3xl font-bold'>{details.name}</h2>
-        <h3 className='mx-4'>
+        <h3 className=''>
           {details.first_air_date.slice(0, 4)} -{" "}
           {details.status === "Ended" ? details.last_air_date.slice(0, 4) : ""}
         </h3>

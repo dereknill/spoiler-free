@@ -9,7 +9,6 @@ function Page(props) {
   const [faded, setFaded] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
   const [user, setUser] = useState(null);
-  const [darkBG, setDarkBG] = useState(false);
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
@@ -40,11 +39,9 @@ function Page(props) {
           user={user}
         ></Header>
         <main
-          className={`mx-auto w-[95%] bg-slate-200 max-w-screen-lg min-h-screen shadow-lg shadow-black mb-6 mt-16 lg:mt-24 rounded-2xl relative ${
-            darkBG && "bg-slate-600"
-          }`}
+          className={`mx-auto w-[95%] bg-slate-300 max-w-screen-lg min-h-screen shadow-lg shadow-black mb-6 mt-16 lg:mt-24 rounded-2xl relative`}
         >
-          <Outlet context={[user, setDarkBG]}></Outlet>
+          <Outlet context={[user]}></Outlet>
         </main>
         <Footer></Footer>
       </div>

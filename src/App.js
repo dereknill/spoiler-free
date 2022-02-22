@@ -7,6 +7,7 @@ import Search from "./components/Search";
 import Browse from "./components/Browse";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+import Profile from "./components/Profile";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='browse/:id/:genre' element={<Browse></Browse>}></Route>
           <Route path='signin' element={<SignIn />}></Route>
           <Route path='signup' element={<SignUp />}></Route>
+          <Route path='profile' element={<Profile />}></Route>
         </Route>
         <Route path='*' element={<Page />}></Route>
       </Routes>

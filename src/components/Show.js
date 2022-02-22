@@ -37,7 +37,7 @@ function Show(props) {
   return (
     <div className='mb-4 flex justify-center flex-col'>
       <div className='flex justify-end w-full bg-slate-400 h-10 rounded-t-2xl'>
-        <button className='w-24 md:w-36 bg-slate-200'>Information</button>
+        <button className='w-24 md:w-36 bg-slate-300'>Information</button>
         <button className='w-24 md:w-36 rounded-tr-2xl'>Discussion</button>
       </div>
 

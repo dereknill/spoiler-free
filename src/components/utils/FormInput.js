@@ -13,6 +13,7 @@ function FormInput(props) {
         value={props.value}
         required={true}
         className='w-full px-3 py-1 border-slate-400 rounded border'
+        disabled={props.disabled}
       ></input>
     </div>
   );

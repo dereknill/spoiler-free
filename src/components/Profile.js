@@ -125,7 +125,7 @@ function Profile(props) {
   }
   return (
     <div className='w-full absolute rounded-xl h-full bg-slate-600'>
-      <section className='my-10 w-96 mx-auto max-w-[95%] bg-slate-300 p-5 rounded shadow-lg shadow-black/75'>
+      <section className='mb-10 mt-5 md:mt-10 w-96 mx-auto max-w-[95%] bg-slate-300 p-5 rounded shadow-lg shadow-black/75'>
         <h2 className='text-center mb-4 text-xl font-bold'>Profile</h2>
         <form className='flex flex-col gap-5 mb-4'>
           <FormInput

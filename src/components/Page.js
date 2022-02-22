@@ -39,7 +39,7 @@ function Page(props) {
           user={user}
         ></Header>
         <main
-          className={`mx-auto w-[95%] bg-slate-300 max-w-screen-lg min-h-screen shadow-lg shadow-black mb-6 mt-16 lg:mt-24 rounded-2xl relative`}
+          className={`mx-auto w-[95%] bg-slate-300 max-w-screen-lg min-h-screen shadow-lg shadow-black my-6 rounded-2xl relative`}
         >
           <Outlet context={[user]}></Outlet>
         </main>

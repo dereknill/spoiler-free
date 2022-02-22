@@ -2,9 +2,10 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
+  fetchSignInMethodsForEmail,
 } from "firebase/auth";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import FormInput from "./utils/FormInput";
 
 function SignUp(props) {
@@ -12,6 +13,7 @@ function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const navigate = useNavigate();
 
   const [error, setError] = useState(null);
 
@@ -20,18 +22,27 @@ function SignUp(props) {
     createUserWithEmailAndPassword(auth, newEmail, newPassword)
       .then((userCredential) => {
         const user = userCredential.user;
-        updateProfile(user, { displayName: newName });
+        updateProfile(user, { displayName: newName }).then(() => {
+          navigate("/profile");
+        });
       })
       .catch((error) => {});
   }
 
   function startSignUp(event) {
+    const auth = getAuth();
     event.preventDefault();
     if (password !== passwordConfirm) {
       setError("Password must match");
     } else {
-      setError(null);
-      createUser(name, email, password);
+      fetchSignInMethodsForEmail(auth, email).then((result) => {
+        if (result.length > 0) {
+          setError("Email already attached to an account");
+        } else {
+          setError(null);
+          createUser(name, email, password);
+        }
+      });
     }
   }
 

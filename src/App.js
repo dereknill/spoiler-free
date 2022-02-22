@@ -8,10 +8,12 @@ import Browse from "./components/Browse";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
+import ScrollToTop from "./components/utils/ScrollToTop";
 
 function App() {
   return (
     <HashRouter>
+      <ScrollToTop></ScrollToTop>
       <Routes>
         <Route path='/' element={<Page />}>
           <Route path='/' element={<Homepage></Homepage>}></Route>

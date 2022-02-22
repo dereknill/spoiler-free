@@ -66,8 +66,12 @@ function Menu(props) {
       </h2>
       <div className='bg-slate-500 px-1 sm:px-3 mb-2 sm:mb-4'>
         <ul className='text-lg mx-7 py-4'>
-          <li className='px-2 font-bold'>
-            <button onClick={handleAccountClick} path='/profile'>
+          <li className='px-2'>
+            <button
+              onClick={handleAccountClick}
+              path='/profile'
+              className='font-bold hover:underline'
+            >
               Profile
             </button>
           </li>

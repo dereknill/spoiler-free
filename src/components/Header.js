@@ -51,9 +51,9 @@ function Header(props) {
       );
     } else {
       return (
-        <div className='hidden md:inline mx-5 bg-slate-500 rounded-full h-10 w-10'>
+        <div className='hidden md:inline mx-5 bg-slate-500 rounded-full h-10 w-10 shadow shadow-slate-500'>
           <Link
-            to='/'
+            to='/profile'
             className='w-full h-full flex items-center justify-center text-xl text-white'
           >
             <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>
@@ -62,8 +62,9 @@ function Header(props) {
       );
     }
   }
+
   return (
-    <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 fixed top-0 z-[10000]'>
+    <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 sticky top-0 z-[10000]'>
       <div
         className={`absolute w-full h-full flex items-center justify-center transition-all bg-black top-0 left-0 right-0 ${
           !searchActive && "-translate-y-full"

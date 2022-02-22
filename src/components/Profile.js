@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import FormInput from "./utils/FormInput";
+import {
+  getAuth,
+  updateProfile,
+  updateEmail,
+  updatePassword,
+  fetchSignInMethodsForEmail,
+} from "firebase/auth";
 
 function Profile(props) {
   const [name, setName] = useState("");
@@ -8,33 +15,45 @@ function Profile(props) {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [edit, setEdit] = useState(false);
-  //   const [error, setError] = useState(null);
+  const [editPassword, setEditPassword] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [user] = useOutletContext();
 
-  //   function createUser(newName, newEmail, newPassword) {
-  //     const auth = getAuth();
-  //     createUserWithEmailAndPassword(auth, newEmail, newPassword)
-  //       .then((userCredential) => {
-  //         const user = userCredential.user;
-  //         updateProfile(user, { displayName: newName });
-  //       })
-  //       .catch((error) => {});
-  //   }
-
-  //   function startSignUp(event) {
-  //     event.preventDefault();
-  //     if (password !== passwordConfirm) {
-  //       setError("Password must match");
-  //     } else {
-  //       setError(null);
-  //       createUser(name, email, password);
-  //     }
-  //   }
   function editOrSave(event) {
     event.preventDefault();
-    if (!edit) {
+    if (!edit && !editPassword) {
       setEdit(true);
+    } else if (edit) {
+      const auth = getAuth();
+      fetchSignInMethodsForEmail(auth, email)
+        .then((result) => {
+          if (result.length > 0) {
+            setError("Email already attached to an account");
+          } else {
+            updateProfile(auth.currentUser, { displayName: name }).then(() => {
+              updateEmail(auth.currentUser, email).then(() => {
+                setEdit(false);
+              });
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (editPassword) {
+      if (
+        password.length > 0 &&
+        passwordConfirm.length > 0 &&
+        password === passwordConfirm
+      ) {
+        const auth = getAuth();
+        updatePassword(auth.currentUser, password).then(() => {
+          setEditPassword(false);
+        });
+      } else {
+        setError("Password must match");
+      }
     }
   }
 
@@ -45,6 +64,7 @@ function Profile(props) {
     setPassword("");
     setPasswordConfirm("");
     setEdit(false);
+    setEditPassword(false);
   }
   useEffect(() => {
     if (!user) {
@@ -55,19 +75,37 @@ function Profile(props) {
     }
   }, [navigate, user]);
 
+  useEffect(() => {
+    setError("");
+  }, [edit, editPassword]);
+
+  function changePassword(event) {
+    event.preventDefault();
+    setEditPassword(true);
+  }
   function displayButtons() {
-    if (!edit) {
+    if (!edit && !editPassword) {
       return (
-        <button
-          type='submit'
-          className='bg-slate-900 text-white w-full rounded px-3 py-2 hover:darker-bg'
-        >
-          Edit Account
-        </button>
+        <div className='flex flex-col gap-5 mt-5'>
+          <button
+            type='submit'
+            className='bg-slate-900 text-white w-full rounded px-3 py-2 hover:darker-bg'
+            onClick={editOrSave}
+          >
+            Edit Account
+          </button>
+          <button
+            type='submit'
+            className='bg-slate-900 text-white w-full rounded px-3 py-2 hover:darker-bg'
+            onClick={changePassword}
+          >
+            Change Password
+          </button>
+        </div>
       );
     } else {
       return (
-        <div className='flex flex-col gap-5'>
+        <div className='flex flex-col gap-5 mt-5'>
           <button
             className='bg-red-900 text-white w-full rounded px-3 py-2 hover:darker-bg'
             onClick={handleCancel}
@@ -77,6 +115,7 @@ function Profile(props) {
           <button
             type='submit'
             className='bg-green-900 text-white w-full rounded px-3 py-2 hover:darker-bg'
+            onClick={editOrSave}
           >
             Save
           </button>
@@ -88,7 +127,7 @@ function Profile(props) {
     <div className='w-full absolute rounded-xl h-full bg-slate-600'>
       <section className='my-10 w-96 mx-auto max-w-[95%] bg-slate-300 p-5 rounded shadow-lg shadow-black/75'>
         <h2 className='text-center mb-4 text-xl font-bold'>Profile</h2>
-        <form onSubmit={editOrSave} className='flex flex-col gap-5'>
+        <form className='flex flex-col gap-5 mb-4'>
           <FormInput
             type='text'
             name='display_name'
@@ -103,21 +142,23 @@ function Profile(props) {
             change={setEmail}
             disabled={!edit}
           ></FormInput>
-          <FormInput
-            type='password'
-            name='new_password'
-            value={password}
-            change={setPassword}
-            disabled={!edit}
-          ></FormInput>
-          <FormInput
-            type='password'
-            name='re-enter_password'
-            value={passwordConfirm}
-            change={setPasswordConfirm}
-            disabled={!edit}
-          ></FormInput>
-          {/* {error && <div className='text-red-500'>{error}</div>} */}
+          {editPassword && (
+            <div className='flex flex-col gap-5'>
+              <FormInput
+                type='password'
+                name='new_password'
+                value={password}
+                change={setPassword}
+              ></FormInput>
+              <FormInput
+                type='password'
+                name='re-enter_password'
+                value={passwordConfirm}
+                change={setPasswordConfirm}
+              ></FormInput>
+            </div>
+          )}
+          {error && <div className='text-red-500'>{error}</div>}
           {displayButtons()}
         </form>
       </section>

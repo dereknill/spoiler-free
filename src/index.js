@@ -19,7 +19,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 export const apiKey = "1fc19e2dfd89d668063919143edc6e68";
 

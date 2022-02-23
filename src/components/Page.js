@@ -21,6 +21,15 @@ function Page(props) {
 
   return (
     <div>
+      <div
+        className={`w-full h-full bg-black/75 fixed top-0 left-0 right-0 bottom-0 z-[10500] ${
+          !faded && "hidden"
+        }`}
+        onClick={() => {
+          setMenuActive(false);
+          setFaded(false);
+        }}
+      ></div>
       <Menu
         setFaded={setFaded}
         setMenuActive={setMenuActive}
@@ -28,23 +37,19 @@ function Page(props) {
         user={user}
         setUser={setUser}
       ></Menu>
-      <div
-        className={`flex flex-col w-full bg-slate-800 min-h-screen transition-all ${
-          faded && "brightness-[0.25]"
-        }`}
+      <Header
+        faded={faded}
+        setFaded={setFaded}
+        setMenuActive={setMenuActive}
+        user={user}
+      ></Header>
+
+      <main
+        className={`mx-auto w-[95%] bg-slate-300 max-w-screen-lg min-h-screen shadow-lg shadow-black mb-6 mt-16 lg:mt-20 rounded-2xl relative`}
       >
-        <Header
-          setFaded={setFaded}
-          setMenuActive={setMenuActive}
-          user={user}
-        ></Header>
-        <main
-          className={`mx-auto w-[95%] bg-slate-300 max-w-screen-lg min-h-screen shadow-lg shadow-black my-6 rounded-2xl relative`}
-        >
-          <Outlet context={[user]}></Outlet>
-        </main>
-        <Footer></Footer>
-      </div>
+        <Outlet context={[user]}></Outlet>
+      </main>
+      <Footer></Footer>
     </div>
   );
 }

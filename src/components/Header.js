@@ -64,9 +64,9 @@ function Header(props) {
   }
 
   return (
-    <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 sticky top-0 z-[10000]'>
+    <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 fixed top-0 z-[10000]'>
       <div
-        className={`absolute w-full h-full flex items-center justify-center transition-all bg-black top-0 left-0 right-0 ${
+        className={`flex absolute w-full h-full items-center justify-center transition-transform bg-black top-0 left-0 ${
           !searchActive && "-translate-y-full"
         }`}
       >

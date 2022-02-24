@@ -41,8 +41,6 @@ function Discussion(props) {
       ? userShows[details.id].episode
       : -1;
 
-    console.log(`Season Watched: ${seasonWatched}`);
-    console.log(`Episode Watched: ${episodeWatched}`);
     return seasons.map((season) => {
       let watched;
       if (season.season_number === 0) {
@@ -76,6 +74,8 @@ function Discussion(props) {
 
   function getEpisodeArray(count, seasonWatched, episodeWatched, seasonNumber) {
     let episodes = [];
+    console.log(`Season Watched: ${seasonWatched}`);
+    console.log(`Episode Watched: ${episodeWatched}`);
 
     for (let i = 1; i <= count; i++) {
       let bg;

@@ -19,7 +19,7 @@ function Discussion(props) {
       season: season,
       episode: episode,
     };
-    setShows(showList);
+
     if (user) {
       const docRef = doc(db, "users", user.uid);
       const setResult = async () =>
@@ -27,7 +27,9 @@ function Discussion(props) {
           shows: showList,
         });
 
-      setResult();
+      setResult().then(() => {
+        setShows(showList);
+      });
     }
   }
   function displaySeasons(theDetails, userShows) {
@@ -107,6 +109,7 @@ function Discussion(props) {
 
   useEffect(() => {
     if (user) {
+      console.log("Use effect triggered");
       const docRef = doc(db, "users", user.uid);
       const getResult = async () => await getDoc(docRef);
 
@@ -118,7 +121,7 @@ function Discussion(props) {
   }, [user, navigate]);
 
   if (!ready || !shows) {
-    return <div>Loading...</div>;
+    return null;
   }
   if (!user) {
     navigate("/signin");

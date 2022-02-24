@@ -8,6 +8,7 @@ import Browse from "./components/Browse";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
+import Discussion from "./components/Discussion";
 import ScrollToTop from "./components/utils/ScrollToTop";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path='/' element={<Homepage></Homepage>}></Route>
           <Route path='shows' element={<Show />}>
             <Route path=':id' element={<ShowInfo></ShowInfo>}></Route>
+            <Route path=':id/discussion' element={<Discussion />}></Route>
           </Route>
           <Route path='search/:query' element={<Search></Search>}></Route>
           <Route path='browse/:id/:genre' element={<Browse></Browse>}></Route>

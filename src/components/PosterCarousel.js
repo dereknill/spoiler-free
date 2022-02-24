@@ -78,7 +78,7 @@ function PosterCarousel(props) {
         infinite={false}
         className='w-full mx-auto'
         itemClass='px-2'
-        containerClass='bg-black w-11/12'
+        containerClass='bg-black w-11/12 mb-4'
         showDots={false}
         centerMode={true}
         ref={ref}

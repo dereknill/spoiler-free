@@ -120,7 +120,7 @@ function Discussion(props) {
     }
   }, [user, navigate]);
 
-  if (!ready || !shows) {
+  if (!ready) {
     return null;
   }
   if (!user) {

@@ -20,6 +20,8 @@ function Discussion(props) {
       episode: episode,
     };
 
+    setShows(showList);
+
     if (user) {
       const docRef = doc(db, "users", user.uid);
       const setResult = async () =>
@@ -27,9 +29,7 @@ function Discussion(props) {
           shows: showList,
         });
 
-      setResult().then(() => {
-        setShows(showList);
-      });
+      setResult();
     }
   }
   function displaySeasons(theDetails, userShows) {
@@ -76,8 +76,6 @@ function Discussion(props) {
 
   function getEpisodeArray(count, seasonWatched, episodeWatched, seasonNumber) {
     let episodes = [];
-    console.log(`Season Watched: ${seasonWatched}`);
-    console.log(`Episode Watched: ${episodeWatched}`);
 
     for (let i = 1; i <= count; i++) {
       let bg;
@@ -92,10 +90,12 @@ function Discussion(props) {
           bg = "bg-red-800";
         }
       }
+
+      console.log(bg);
       episodes.push(
         <button
           key={uuid()}
-          className={`${bg} bg-red-800 border-black border text-center text-white p-1`}
+          className={`${bg} border-black border text-center text-white p-1`}
           episode={i}
           season={seasonNumber}
           onClick={handleWatchChange}

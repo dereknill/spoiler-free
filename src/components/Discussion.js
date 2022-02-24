@@ -31,6 +31,7 @@ function Discussion(props) {
     }
   }
   function displaySeasons(theDetails, userShows) {
+    console.log(userShows);
     const seasons = theDetails.seasons;
     const seasonWatched = userShows[theDetails.id]
       ? userShows[details.id].season

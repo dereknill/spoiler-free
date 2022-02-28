@@ -53,7 +53,7 @@ function Page(props) {
       ></Header>
 
       <main
-        className={`mx-auto w-[95%] bg-slate-300 max-w-screen-lg min-h-screen shadow-lg shadow-black pb-6 mb-6 mt-16 lg:mt-20 rounded-2xl relative`}
+        className={`mx-auto w-[95%] bg-slate-300 max-w-screen-lg min-h-screen shadow-lg shadow-black mb-6 mt-16 lg:mt-20 rounded-2xl relative`}
       >
         <Outlet context={[user]}></Outlet>
       </main>

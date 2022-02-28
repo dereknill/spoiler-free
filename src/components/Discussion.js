@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import { db } from "../index";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import WatchSelector from "./WatchSelector";
+import Forum from "./Forum";
 
 function Discussion(props) {
   const [details, user] = useOutletContext();
   const [ready, setReady] = useState(false);
   const [shows, setShows] = useState(null);
   const [selecting, setSelecting] = useState(true);
+  const [posting, setPosting] = useState(false);
   const navigate = useNavigate();
 
   function handleWatchChange(event) {
@@ -44,23 +46,28 @@ function Discussion(props) {
       );
     } else {
       return (
-        <section className='mx-7'>
+        <section className='mx-7 pb-4'>
           <h2 className='text-3xl font-bold'>{details.name}</h2>
-          <h3 className='mt-2'>
-            <div className='inline-block'>
-              {`Showing discussion through Season ${
-                shows[details.id].season
-              }, Episode ${shows[details.id].episode}`}
+          <div className='mt-2'>
+            <div className='flex sm:gap-1 flex-col sm:flex-row sm:items-center sm:items-start'>
+              <span>Showing discussion through</span>
+              <span className='font-bold'>
+                {`Season ${shows[details.id].season}, Episode ${
+                  shows[details.id].episode
+                }`}
+              </span>
+              <div>
+                <button
+                  className='bg-slate-900 text-white rounded px-3 py-1 sm:ml-4 hover:darker-bg'
+                  onClick={() => {
+                    setSelecting(true);
+                  }}
+                >
+                  Edit
+                </button>
+              </div>
             </div>
-            <button
-              className='bg-slate-900 text-white rounded px-3 py-2 ml-4 hover:darker-bg'
-              onClick={() => {
-                setSelecting(true);
-              }}
-            >
-              Edit
-            </button>
-          </h3>
+          </div>
         </section>
       );
     }
@@ -87,7 +94,7 @@ function Discussion(props) {
   }
 
   return (
-    <div className='my-4 flex justify-center flex-col'>
+    <div className='mt-4 flex justify-center flex-col relative'>
       {displaySubHeading(selecting)}
 
       <div className={`mx-7 ${!selecting && "hidden"}`}>
@@ -97,6 +104,13 @@ function Discussion(props) {
           handleWatchChange={handleWatchChange}
         />
       </div>
+      {!selecting && (
+        <Forum
+          showId={details.id}
+          posting={posting}
+          setPosting={setPosting}
+        ></Forum>
+      )}
     </div>
   );
 }

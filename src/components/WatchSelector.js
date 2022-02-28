@@ -2,7 +2,6 @@ import uuid from "react-uuid";
 
 function WatchSelector(props) {
   function displaySeasons(theDetails, userShows) {
-    console.log(userShows);
     const seasons = theDetails.seasons;
     const seasonWatched = userShows[theDetails.id]
       ? userShows[theDetails.id].season
@@ -60,7 +59,6 @@ function WatchSelector(props) {
         }
       }
 
-      console.log(bg);
       episodes.push(
         <button
           key={uuid()}

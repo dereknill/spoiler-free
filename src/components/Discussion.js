@@ -2,12 +2,13 @@ import { useOutletContext, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { db } from "../index";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import uuid from "react-uuid";
+import WatchSelector from "./WatchSelector";
 
 function Discussion(props) {
   const [details, user] = useOutletContext();
   const [ready, setReady] = useState(false);
   const [shows, setShows] = useState(null);
+  const [selecting, setSelecting] = useState(true);
   const navigate = useNavigate();
 
   function handleWatchChange(event) {
@@ -21,7 +22,7 @@ function Discussion(props) {
     };
 
     setShows(showList);
-
+    setSelecting(false);
     if (user) {
       const docRef = doc(db, "users", user.uid);
       const setResult = async () =>
@@ -32,108 +33,70 @@ function Discussion(props) {
       setResult();
     }
   }
-  function displaySeasons(theDetails, userShows) {
-    console.log(userShows);
-    const seasons = theDetails.seasons;
-    const seasonWatched = userShows[theDetails.id]
-      ? userShows[details.id].season
-      : -1;
 
-    const episodeWatched = userShows[theDetails.id]
-      ? userShows[details.id].episode
-      : -1;
-
-    return seasons.map((season) => {
-      let watched;
-      if (season.season_number === 0) {
-        return null;
-      }
-      if (parseInt(season.season_number) < seasonWatched) {
-        watched = "all";
-      } else if (parseInt(season.season_number) === parseInt(seasonWatched)) {
-        watched = "some";
-      } else {
-        watched = "none";
-      }
+  function displaySubHeading(selecting) {
+    if (selecting) {
       return (
-        <div
-          className='grid grid-cols-1 md:grid-cols-[10rem_1fr] my-4'
-          key={season.season_number}
-        >
-          <h3 className='font-bold text-xl'>Season {season.season_number}</h3>
-          <div className='grid grid-cols-5 md:grid-cols-10 gap-1'>
-            {getEpisodeArray(
-              season.episode_count,
-              watched,
-              episodeWatched,
-              season.season_number
-            )}
-          </div>
-        </div>
+        <section className='mx-7'>
+          <h2 className='text-3xl font-bold'>{details.name}</h2>
+          <h3 className='mt-3'>Select the episode you have watched through</h3>
+        </section>
       );
-    });
-  }
-
-  function getEpisodeArray(count, seasonWatched, episodeWatched, seasonNumber) {
-    let episodes = [];
-
-    for (let i = 1; i <= count; i++) {
-      let bg;
-      if (seasonWatched === "all") {
-        bg = "bg-green-800";
-      } else if (seasonWatched === "none") {
-        bg = "bg-red-800";
-      } else {
-        if (i <= episodeWatched) {
-          bg = "bg-green-800";
-        } else {
-          bg = "bg-red-800";
-        }
-      }
-
-      console.log(bg);
-      episodes.push(
-        <button
-          key={uuid()}
-          className={`${bg} border-black border text-center text-white p-1`}
-          episode={i}
-          season={seasonNumber}
-          onClick={handleWatchChange}
-        >
-          {i}
-        </button>
+    } else {
+      return (
+        <section className='mx-7'>
+          <h2 className='text-3xl font-bold'>{details.name}</h2>
+          <h3 className='mt-2'>
+            <div className='inline-block'>
+              {`Showing discussion through Season ${
+                shows[details.id].season
+              }, Episode ${shows[details.id].episode}`}
+            </div>
+            <button
+              className='bg-slate-900 text-white rounded px-3 py-2 ml-4 hover:darker-bg'
+              onClick={() => {
+                setSelecting(true);
+              }}
+            >
+              Edit
+            </button>
+          </h3>
+        </section>
       );
     }
-    return episodes;
   }
-
   useEffect(() => {
     if (user) {
-      console.log("Use effect triggered");
       const docRef = doc(db, "users", user.uid);
       const getResult = async () => await getDoc(docRef);
 
       getResult().then((result) => {
         setShows(result.data().shows);
+        if (result.data().shows[details.id]) {
+          setSelecting(false);
+        }
         setReady(true);
       });
+    } else {
+      navigate("/signin");
     }
-  }, [user, navigate]);
+  }, [user, navigate, details.id]);
 
   if (!ready) {
     return null;
   }
-  if (!user) {
-    navigate("/signin");
-  }
 
   return (
     <div className='my-4 flex justify-center flex-col'>
-      <section className='mx-7'>
-        <h2 className='text-3xl font-bold'>{details.name}</h2>
-        <h3 className=''>Select the episode you have watched through</h3>
-      </section>
-      <section className='mx-7'>{displaySeasons(details, shows)}</section>
+      {displaySubHeading(selecting)}
+
+      <div className={`mx-7 ${!selecting && "hidden"}`}>
+        <WatchSelector
+          shows={shows}
+          details={details}
+          handleWatchChange={handleWatchChange}
+        />
+      </div>
     </div>
   );
 }

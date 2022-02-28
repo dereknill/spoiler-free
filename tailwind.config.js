@@ -12,6 +12,9 @@ module.exports = {
       colors: {
         neonred: "#FF3131",
       },
+      transitionProperty: {
+        maxHeight: "max-height",
+      },
     },
   },
   plugins: [],

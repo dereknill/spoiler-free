@@ -50,23 +50,30 @@ function Discussion(props) {
           <h2 className='text-3xl font-bold'>{details.name}</h2>
           <div className='mt-2'>
             <div className='flex sm:gap-1 flex-col sm:flex-row sm:items-center sm:items-start'>
-              <span>Showing discussion through</span>
+              <span>
+                {posting
+                  ? "Creating post referencing content through"
+                  : "Showing discussion through"}
+              </span>
               <span className='font-bold'>
                 {`Season ${shows[details.id].season}, Episode ${
                   shows[details.id].episode
                 }`}
-              </span>
-              <div>
                 <button
-                  className='bg-slate-900 text-white rounded px-3 py-1 sm:ml-4 hover:darker-bg'
+                  className='bg-slate-900 text-white rounded px-3 py-1 ml-4 hover:darker-bg'
                   onClick={() => {
                     setSelecting(true);
                   }}
                 >
                   Edit
                 </button>
-              </div>
+              </span>
             </div>
+            {posting && (
+              <div className='text-red-800 text-sm'>
+                Do not reference any content past this episode
+              </div>
+            )}
           </div>
         </section>
       );
@@ -84,11 +91,12 @@ function Discussion(props) {
         }
         setReady(true);
       });
-    } else {
-      navigate("/signin");
     }
   }, [user, navigate, details.id]);
 
+  if (ready && !user) {
+    navigate("/signin");
+  }
   if (!ready) {
     return null;
   }

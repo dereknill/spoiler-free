@@ -36,19 +36,22 @@ function Forum(props) {
 
   if (props.posting)
     return (
-      <section className='px-1 md:px-5 py-10 bg-slate-600 flex flex-col gap-2 min-h-[800px] rounded-b-2xl'>
-        <CreatePost></CreatePost>
+      <section className='px-1 md:px-5 py-10 bg-slate-400 flex flex-col gap-2 min-h-[800px] rounded-b-2xl'>
+        <CreatePost
+          showId={props.showId}
+          setPosting={props.setPosting}
+        ></CreatePost>
       </section>
     );
   return (
     <section className='px-1 md:px-5 py-10 bg-slate-300 flex flex-col gap-2 min-h-[800px] rounded-b-2xl'>
       <button
-        className='bg-slate-900 text-white rounded px-3 py-1 hover:darker-bg'
+        className='bg-slate-900 text-white rounded px-3 py-1 hover:darker-bg w-full sm:w-fit'
         onClick={() => {
           props.setPosting(true);
         }}
       >
-        Edit
+        New Post
       </button>
       {displayPosts()}
     </section>

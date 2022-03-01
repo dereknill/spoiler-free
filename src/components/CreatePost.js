@@ -10,8 +10,13 @@ function CreatePost(props) {
   function handlePost(event) {
     event.preventDefault();
   }
+
+  function handleCancel(event) {
+    event.preventDefault();
+    props.setPosting(false);
+  }
   return (
-    <section className='mb-10 mt-5 md:mt-10 w-full mx-auto max-w-[95%] bg-slate-300 p-5 rounded shadow-lg shadow-black/75'>
+    <section className='mb-10 mt-5 w-full mx-auto max-w-[95%] bg-slate-300 p-5 rounded shadow-lg shadow-black/75'>
       <h2 className='text-center mb-4 text-xl font-bold'>Create New Post</h2>
       <form onSubmit={handlePost} className='flex flex-col gap-5'>
         <FormInput
@@ -35,7 +40,10 @@ function CreatePost(props) {
           >
             Submit
           </button>
-          <button className='bg-red-900 font-bold text-white w-full sm:w-24 rounded px-3 py-2 hover:darker-bg'>
+          <button
+            className='bg-red-900 font-bold text-white w-full sm:w-24 rounded px-3 py-2 hover:darker-bg'
+            onClick={handleCancel}
+          >
             Cancel
           </button>
         </div>

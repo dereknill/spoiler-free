@@ -9,25 +9,25 @@ function PostPreview(props) {
   }
   const post = props.post;
   return (
-    <article className='bg-slate-100 py-2 px-4 rounded flex gap-2 justify-between shadow-lg shadow-slate-600/50'>
+    <article className='bg-slate-100 py-2 px-4 rounded flex flex-col sm:flex-row gap-2 justify-between shadow-lg shadow-slate-600/50'>
       <div className='max-w-[70%]'>
         <h2 className='font-bold text-lg text-slate-800'>{post.title}</h2>
         <h3 className='text-black/50'>{`Season ${post.season}, Episode ${post.episode}`}</h3>
-        <h3 className='text-black/50'>
+        <h3 className='text-black/50 flex flex-col'>
           {`Posted by ${post.displayName}`}{" "}
-          <span className='ml-4'>{formatDate(post.timestamp)}</span>
+          <span className='ml-0'>{formatDate(post.timestamp)}</span>
         </h3>
       </div>
-      <div className='text-white flex gap-4'>
-        <div className='h-20 min-w-[7rem] bg-slate-800 rounded shadow shadow-black/50 flex flex-col align-center justify-center'>
-          <span className='text-center text-4xl'>0</span>
-          <span className='text-center'>Views</span>
+      <div className='text-white flex gap-4 justify-center items-center'>
+        <div className='h-16 sm:h-20 w-full sm:min-w-[7rem] bg-slate-800 rounded shadow shadow-black/50 flex flex-col align-center justify-center'>
+          <span className='text-center text-2xl sm:text-4xl'>0</span>
+          <span className='text-center text-base'>Views</span>
         </div>
-        <div className='h-20 min-w-[7rem] bg-slate-800 rounded shadow shadow-black/50 flex flex-col align-center justify-center'>
-          <span className='text-center text-4xl'>
+        <div className='h-16 sm:h-20 w-full sm:min-w-[7rem] bg-slate-800 rounded shadow shadow-black/50 flex flex-col align-center justify-center'>
+          <span className='text-center text-2xl sm:text-4xl'>
             {post.replies ? post.replies.length : "0"}
           </span>
-          <span className='text-center'>Comments</span>
+          <span className='text-center text-base'>Comments</span>
         </div>
       </div>
     </article>

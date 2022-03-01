@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { db } from "../index";
 import { doc, getDoc } from "firebase/firestore";
 import PostPreview from "./PostPreview";
-import uuid from "react-uuid";
 import CreatePost from "./CreatePost";
 
 function Forum(props) {
@@ -24,13 +23,13 @@ function Forum(props) {
     if (!posts) {
       return <h2>Be the first to post about this show!</h2>;
     }
-    return posts.map((post) => {
-      return <PostPreview post={post} key={uuid()}></PostPreview>;
+    return Object.keys(posts).map((key, index) => {
+      return <PostPreview post={posts[key]} key={key}></PostPreview>;
     });
   }
   useEffect(() => {
     getPosts(props.showId);
-  }, [props.showId]);
+  }, [props.showId, props.posting]);
 
   if (!ready) return null;
 
@@ -40,6 +39,10 @@ function Forum(props) {
         <CreatePost
           showId={props.showId}
           setPosting={props.setPosting}
+          postsExist={posts ? true : false}
+          season={props.season}
+          episode={props.episode}
+          user={props.user}
         ></CreatePost>
       </section>
     );

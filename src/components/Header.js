@@ -64,7 +64,7 @@ function Header(props) {
   }
 
   return (
-    <header className='w-full mx-auto flex justify-center bg-slate-900 py-2 fixed top-0 z-[10000]'>
+    <header className='w-full mx-auto px-2 flex justify-center bg-slate-900 py-2 fixed top-0 z-[10000]'>
       <div
         className={`flex absolute w-full h-full items-center justify-center transition-transform bg-black top-0 left-0 ${
           !searchActive && "-translate-y-full"
@@ -99,7 +99,7 @@ function Header(props) {
 
           <div className='flex items-center shrink'>
             <Link to='/'>
-              <span className='text-white text-2xl lg:text-4xl tracking-tighter'>
+              <span className='text-white text-3xl lg:text-4xl tracking-tighter'>
                 Spoilerphobia
               </span>
             </Link>

@@ -2,7 +2,7 @@ import PosterCarousel from "./PosterCarousel";
 import MainBackdrop from "./MainBackdrop";
 function Homepage(props) {
   return (
-    <div>
+    <div className='pb-10'>
       <MainBackdrop></MainBackdrop>
       <PosterCarousel
         category='tv/popular'

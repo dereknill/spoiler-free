@@ -115,8 +115,11 @@ function Discussion(props) {
       {!selecting && (
         <Forum
           showId={details.id}
+          episode={shows[details.id].episode}
+          season={shows[details.id].season}
           posting={posting}
           setPosting={setPosting}
+          user={user}
         ></Forum>
       )}
     </div>

@@ -1,14 +1,63 @@
 import FormInput from "./utils/FormInput";
 import { useState } from "react";
+import { db } from "../index";
+import { doc, updateDoc, setDoc, Timestamp } from "firebase/firestore";
+import uuid from "react-uuid";
 
 function CreatePost(props) {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  //   const [season, setSeason] = useState(null);
-  //   const [episode, setEpisode] = useState(null);
-  //   const [error, setError] = useState(null);
   function handlePost(event) {
     event.preventDefault();
+    const docRef = doc(db, "comments", props.showId.toString());
+    if (props.user) {
+      if (props.postsExist) {
+        const key = `posts.${uuid()}`;
+        const updatePost = async () =>
+          await updateDoc(docRef, {
+            [key]: {
+              displayName: props.user.displayName,
+              episode: props.episode,
+              season: props.season,
+              replies: [],
+              text: text,
+              title: title,
+              views: 0,
+              timestamp: Timestamp.fromDate(new Date()),
+              uid: props.user.uid,
+            },
+          });
+
+        updatePost()
+          .then((result) => {
+            props.setPosting(false);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        const create = async () =>
+          await setDoc(docRef, {
+            posts: {
+              [uuid()]: {
+                displayName: props.user.displayName,
+                episode: props.episode,
+                season: props.season,
+                replies: [],
+                text: text,
+                title: title,
+                views: 0,
+                timestamp: Timestamp.fromDate(new Date()),
+                uid: props.user.uid,
+              },
+            },
+          });
+
+        create().then((result) => {
+          props.setPosting(false);
+        });
+      }
+    }
   }
 
   function handleCancel(event) {

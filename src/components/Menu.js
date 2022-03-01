@@ -51,7 +51,7 @@ function Menu(props) {
   }
   return (
     <nav
-      className={`fixed right-0 min-h-screen top-0 w-3/4 max-w-md z-[11000] bg-slate-700 text-white py-4 transition-transform overflow-y-auto ${
+      className={`fixed right-0 h-screen top-0 w-3/4 max-w-md z-[11000] bg-slate-700 text-white py-4 transition-transform overflow-y-auto ${
         !props.menuActive && "translate-x-full"
       }`}
     >

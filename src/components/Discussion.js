@@ -4,13 +4,15 @@ import { db } from "../index";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import WatchSelector from "./WatchSelector";
 import Forum from "./Forum";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Discussion(props) {
-  const [details, user] = useOutletContext();
+  const [details, user, setOnInfo] = useOutletContext();
   const [ready, setReady] = useState(false);
   const [shows, setShows] = useState(null);
   const [selecting, setSelecting] = useState(true);
   const [posting, setPosting] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const navigate = useNavigate();
 
   function handleWatchChange(event) {
@@ -79,24 +81,39 @@ function Discussion(props) {
       );
     }
   }
+
   useEffect(() => {
-    if (user) {
-      const docRef = doc(db, "users", user.uid);
-      const getResult = async () => await getDoc(docRef);
+    const auth = getAuth();
 
-      getResult().then((result) => {
-        setShows(result.data().shows);
-        if (result.data().shows[details.id]) {
-          setSelecting(false);
-        }
-        setReady(true);
-      });
+    const listener = onAuthStateChanged(auth, async (user) => {
+      setIsAuthenticated(!!user);
+    });
+
+    return () => {
+      listener();
+    };
+  }, []);
+
+  useEffect(() => {
+    setOnInfo(false);
+    if (isAuthenticated !== null) {
+      if (!isAuthenticated) {
+        navigate("/signin");
+      } else if (user) {
+        const docRef = doc(db, "users", user.uid);
+        const getResult = async () => await getDoc(docRef);
+
+        getResult().then((result) => {
+          setShows(result.data().shows);
+          if (result.data().shows[details.id]) {
+            setSelecting(false);
+          }
+          setReady(true);
+        });
+      }
     }
-  }, [user, navigate, details.id]);
+  }, [isAuthenticated, user, navigate, details.id, setOnInfo]);
 
-  if (ready && !user) {
-    navigate("/signin");
-  }
   if (!ready) {
     return null;
   }

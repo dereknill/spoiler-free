@@ -71,7 +71,7 @@ function Show(props) {
         </button>
       </div>
 
-      <Outlet context={[details, user]}></Outlet>
+      <Outlet context={[details, user, setOnInfo]}></Outlet>
     </div>
   );
 }

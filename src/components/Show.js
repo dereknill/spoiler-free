@@ -12,6 +12,7 @@ function Show(props) {
   const [details, setDetails] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [onInfo, setOnInfo] = useState(true);
+  const [fromPost, setFromPost] = useState("");
   const params = useParams();
   const [user] = useOutletContext();
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ function Show(props) {
   function handleDiscussion(event) {
     event.preventDefault();
     setOnInfo(false);
-    navigate(`/shows/${params.id}/discussion`);
+    navigate(`/shows/${params.id}/discussion${fromPost}`);
   }
 
   function handleInfo(event) {
@@ -71,7 +72,9 @@ function Show(props) {
         </button>
       </div>
 
-      <Outlet context={[details, user, setOnInfo]}></Outlet>
+      <Outlet
+        context={[details, user, setOnInfo, params.postid, setFromPost]}
+      ></Outlet>
     </div>
   );
 }

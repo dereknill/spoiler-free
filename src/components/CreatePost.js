@@ -9,7 +9,7 @@ function CreatePost(props) {
   const [text, setText] = useState("");
   function handlePost(event) {
     event.preventDefault();
-    const docRef = doc(db, "comments", props.showId.toString());
+    const docRef = doc(db, `comments`, props.showId.toString());
     if (props.user) {
       if (props.postsExist) {
         const key = `posts.${uuid()}`;
@@ -31,6 +31,7 @@ function CreatePost(props) {
         updatePost()
           .then((result) => {
             props.setPosting(false);
+            props.setForumReady(false);
           })
           .catch((error) => {
             console.log(error);
@@ -55,6 +56,7 @@ function CreatePost(props) {
 
         create().then((result) => {
           props.setPosting(false);
+          props.setForumReady(false);
         });
       }
     }

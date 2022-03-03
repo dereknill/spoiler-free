@@ -1,4 +1,4 @@
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { db } from "../index";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -7,7 +7,7 @@ import Forum from "./Forum";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Discussion(props) {
-  const [details, user, setOnInfo] = useOutletContext();
+  const [details, user, setOnInfo, postid, setFromPost] = useOutletContext();
   const [ready, setReady] = useState(false);
   const [shows, setShows] = useState(null);
   const [selecting, setSelecting] = useState(true);
@@ -39,6 +39,9 @@ function Discussion(props) {
   }
 
   function displaySubHeading(selecting) {
+    if (postid) {
+      return null;
+    }
     if (selecting) {
       return (
         <section className='mx-7'>
@@ -112,7 +115,7 @@ function Discussion(props) {
         });
       }
     }
-  }, [isAuthenticated, user, navigate, details.id, setOnInfo]);
+  }, [isAuthenticated, user, navigate, details.id, setOnInfo, posting]);
 
   if (!ready) {
     return null;
@@ -120,7 +123,7 @@ function Discussion(props) {
 
   return (
     <div className='mt-4 flex justify-center flex-col relative'>
-      {displaySubHeading(selecting)}
+      {!props.postid && displaySubHeading(selecting)}
 
       <div className={`mx-7 ${!selecting && "hidden"}`}>
         <WatchSelector
@@ -132,11 +135,14 @@ function Discussion(props) {
       {!selecting && (
         <Forum
           showId={details.id}
+          showName={details.name}
           episode={shows[details.id].episode}
           season={shows[details.id].season}
           posting={posting}
           setPosting={setPosting}
           user={user}
+          postid={postid}
+          setFromPost={setFromPost}
         ></Forum>
       )}
     </div>

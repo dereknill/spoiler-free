@@ -21,6 +21,10 @@ function App() {
           <Route path='shows' element={<Show />}>
             <Route path=':id' element={<ShowInfo></ShowInfo>}></Route>
             <Route path=':id/discussion' element={<Discussion />}></Route>
+            <Route
+              path=':id/discussion/:postid'
+              element={<Discussion />}
+            ></Route>
           </Route>
           <Route path='search/:query' element={<Search></Search>}></Route>
           <Route path='browse/:id/:genre' element={<Browse></Browse>}></Route>

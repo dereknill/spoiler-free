@@ -2,11 +2,21 @@ import { useState, useEffect } from "react";
 import { db } from "../index";
 import { doc, getDoc } from "firebase/firestore";
 import PostPreview from "./PostPreview";
+import ViewPost from "./ViewPost";
 import CreatePost from "./CreatePost";
+import { useNavigate } from "react-router-dom";
 
 function Forum(props) {
   const [posts, setPosts] = useState(null);
   const [ready, setReady] = useState(false);
+  const [postid, setPostid] = useState(null);
+  const navigate = useNavigate();
+
+  function handlePostClick(event) {
+    event.preventDefault();
+    const postid = event.target.getAttribute("postid");
+    navigate(`/shows/${props.showId}/discussion/${postid}`);
+  }
 
   function getPosts(showId) {
     const docRef = doc(db, "comments", showId.toString());
@@ -24,15 +34,32 @@ function Forum(props) {
       return <h2>Be the first to post about this show!</h2>;
     }
     return Object.keys(posts).map((key, index) => {
-      return <PostPreview post={posts[key]} key={key}></PostPreview>;
+      return (
+        <PostPreview
+          post={posts[key]}
+          key={key}
+          postid={key}
+          click={handlePostClick}
+        ></PostPreview>
+      );
     });
   }
   useEffect(() => {
-    getPosts(props.showId);
-  }, [props.showId, props.posting]);
+    if (!ready) {
+      getPosts(props.showId);
+    }
+    props.postid
+      ? props.setFromPost(`/${props.postid}`)
+      : props.setFromPost("");
+  }, [props.showId, props.posting, props, ready]);
 
   if (!ready) return null;
 
+  if (props.postid) {
+    return (
+      <ViewPost post={posts[props.postid]} showName={props.showName}></ViewPost>
+    );
+  }
   if (props.posting)
     return (
       <section className='px-1 md:px-5 py-10 bg-slate-400 flex flex-col gap-2 min-h-[800px] rounded-b-2xl'>
@@ -43,6 +70,7 @@ function Forum(props) {
           season={props.season}
           episode={props.episode}
           user={props.user}
+          setForumReady={setReady}
         ></CreatePost>
       </section>
     );

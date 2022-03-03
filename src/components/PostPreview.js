@@ -9,7 +9,11 @@ function PostPreview(props) {
   }
   const post = props.post;
   return (
-    <article className='bg-slate-100 py-2 px-4 rounded flex flex-col sm:flex-row gap-2 justify-between shadow-lg shadow-slate-600/50'>
+    <article
+      onClick={props.click}
+      postid={props.postid}
+      className='bg-slate-100 py-2 px-4 rounded flex flex-col sm:flex-row gap-2 justify-between shadow-lg shadow-slate-600/50 cursor-pointer'
+    >
       <div className='max-w-[70%]'>
         <h2 className='font-bold text-lg text-slate-800'>{post.title}</h2>
         <h3 className='text-black/50'>{`Season ${post.season}, Episode ${post.episode}`}</h3>

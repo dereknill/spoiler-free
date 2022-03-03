@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 function Forum(props) {
   const [posts, setPosts] = useState(null);
   const [ready, setReady] = useState(false);
-  const [postid, setPostid] = useState(null);
   const navigate = useNavigate();
 
   function handlePostClick(event) {

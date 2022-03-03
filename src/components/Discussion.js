@@ -1,4 +1,4 @@
-import { useOutletContext, useNavigate, Outlet } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { db } from "../index";
 import { doc, getDoc, setDoc } from "firebase/firestore";

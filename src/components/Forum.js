@@ -13,7 +13,8 @@ function Forum(props) {
 
   function handlePostClick(event) {
     event.preventDefault();
-    const postid = event.target.getAttribute("postid");
+    const postid = event.currentTarget.getAttribute("postid");
+
     navigate(`/shows/${props.showId}/discussion/${postid}`);
   }
 
@@ -56,7 +57,11 @@ function Forum(props) {
 
   if (props.postid) {
     return (
-      <ViewPost post={posts[props.postid]} showName={props.showName}></ViewPost>
+      <ViewPost
+        post={posts[props.postid]}
+        showName={props.showName}
+        showid={props.showId}
+      ></ViewPost>
     );
   }
   if (props.posting)

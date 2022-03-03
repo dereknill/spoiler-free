@@ -2,9 +2,11 @@ function FormInput(props) {
   if (props.textArea) {
     return (
       <div className='w-full flex flex-col gap-1'>
-        <label htmlFor={props.name} className='font-bold'>
-          {formatName(props.name)}
-        </label>
+        {props.name && (
+          <label htmlFor={props.name} className='font-bold'>
+            {formatName(props.name)}
+          </label>
+        )}
         <textarea
           type={props.type}
           name={props.name}
@@ -22,9 +24,11 @@ function FormInput(props) {
   }
   return (
     <div className='w-full flex flex-col gap-1'>
-      <label htmlFor={props.name} className='font-bold'>
-        {formatName(props.name)}
-      </label>
+      {props.name && (
+        <label htmlFor={props.name} className='font-bold'>
+          {formatName(props.name)}
+        </label>
+      )}
       <input
         type={props.type}
         name={props.name}

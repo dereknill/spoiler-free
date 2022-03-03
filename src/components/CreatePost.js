@@ -56,7 +56,6 @@ function CreatePost(props) {
 
         create().then((result) => {
           props.setPosting(false);
-          props.setForumReady(false);
         });
       }
     }

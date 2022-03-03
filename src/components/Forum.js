@@ -57,11 +57,15 @@ function Forum(props) {
 
   if (props.postid) {
     return (
-      <ViewPost
-        post={posts[props.postid]}
-        showName={props.showName}
-        showid={props.showId}
-      ></ViewPost>
+      <section className='flex flex-col gap-2 min-h-[800px] rounded-b-2xl'>
+        <ViewPost
+          post={posts[props.postid]}
+          showName={props.showName}
+          showid={props.showId}
+          postid={props.postid}
+          user={props.user}
+        ></ViewPost>
+      </section>
     );
   }
   if (props.posting)
@@ -74,7 +78,6 @@ function Forum(props) {
           season={props.season}
           episode={props.episode}
           user={props.user}
-          setForumReady={setReady}
         ></CreatePost>
       </section>
     );

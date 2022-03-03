@@ -1,10 +1,11 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import LineBreak from "./utils/LineBreak";
+import { useState } from "react";
 
 function SignIn(props) {
   const navigate = useNavigate();
-
+  const [error, setError] = useState(null);
   function handleCreate(event) {
     event.preventDefault();
     navigate("/signup");
@@ -20,9 +21,15 @@ function SignIn(props) {
         navigate("/");
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(`${errorCode}: ${errorMessage}`);
+        if (
+          errorMessage.includes("auth/wrong-password") ||
+          errorMessage.includes("auth/user-not-found")
+        ) {
+          setError("Email or password is incorrect");
+        } else {
+          setError("An error has occured");
+        }
       });
   }
 
@@ -59,12 +66,15 @@ function SignIn(props) {
               className='w-full px-3 py-1 border-slate-400 rounded border'
             ></input>
           </div>
-          <button
-            type='submit'
-            className='bg-slate-900 text-white w-full rounded mt-5 px-3 py-2 hover:darker-bg'
-          >
-            Sign-In
-          </button>
+          <div>
+            <button
+              type='submit'
+              className='bg-slate-900 text-white w-full rounded mt-5 px-3 py-2 hover:darker-bg'
+            >
+              Sign-In
+            </button>
+            {error && <div className='text-red-500'>{error}</div>}
+          </div>
         </form>
 
         <LineBreak type='margin-10'></LineBreak>

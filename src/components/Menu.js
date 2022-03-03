@@ -35,18 +35,24 @@ function Menu(props) {
   }
 
   function displayUser() {
-    if (!props.user) {
+    if (props.user) {
+      return <span className='text-sm'>{props.user.email}</span>;
+    }
+  }
+
+  function displaySignInOut() {
+    if (props.user) {
       return (
-        <button
-          onClick={handleAccountClick}
-          path='/signin'
-          className='md:hidden mr-4'
-        >
-          Sign In
+        <button onClick={handleSignOut}>
+          <li className='px-2 font-bold hover:underline'>Sign Out</li>
         </button>
       );
     } else {
-      return <span className='text-sm'>{props.user.email}</span>;
+      return (
+        <button onClick={handleAccountClick} path='/signin'>
+          <li className='px-2 font-bold hover:underline'>Sign In</li>
+        </button>
+      );
     }
   }
   return (
@@ -80,9 +86,7 @@ function Menu(props) {
           <LineBreak margin='2'></LineBreak>
           <li className='px-2 font-bold'>Posts</li>
           <LineBreak margin='2'></LineBreak>
-          <button onClick={handleSignOut}>
-            <li className='px-2 font-bold'>Sign Out</li>
-          </button>
+          {displaySignInOut()}
         </ul>
       </div>
       <h2 className='bg-slate-900 text-center py-2 sm:py-3 mt-4 text-2xl sm:text-2xl font-bold'>

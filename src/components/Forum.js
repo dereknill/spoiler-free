@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../index";
-import { doc, getDoc, query } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import PostPreview from "./PostPreview";
 import ViewPost from "./ViewPost";
 import CreatePost from "./CreatePost";
@@ -16,47 +16,6 @@ function Forum(props) {
     event.preventDefault();
     const postid = event.currentTarget.getAttribute("postid");
     navigate(`/shows/${props.showId}/discussion/${postid}`);
-  }
-
-  function getPosts(showId) {
-    const docRef = doc(db, "comments", showId.toString());
-    const getResult = async () => await getDoc(docRef);
-    getResult().then((result) => {
-      if (result.exists()) {
-        filterPosts(result.data().posts);
-      } else {
-        setReady(true);
-      }
-    });
-  }
-
-  function filterPosts(rawPosts) {
-    const postArray = Object.values(rawPosts);
-    console.log(postArray.length);
-    if (postArray.length > 0) {
-      setEmpty(false);
-    }
-    const filteredArray = postArray.filter((post) => {
-      if (parseInt(post.season) < parseInt(props.season)) {
-        return true;
-      }
-      if (
-        post.season === props.season &&
-        parseInt(post.episode) <= parseInt(props.episode)
-      ) {
-        return true;
-      }
-      return false;
-    });
-    sortPosts(filteredArray);
-  }
-
-  function sortPosts(filteredPosts) {
-    filteredPosts.sort((a, b) => {
-      return b.timestamp.seconds - a.timestamp.seconds;
-    });
-    setPosts(filteredPosts);
-    setReady(true);
   }
 
   function displayPosts() {
@@ -94,6 +53,47 @@ function Forum(props) {
     props.postid
       ? props.setFromPost(`/${props.postid}`)
       : props.setFromPost("");
+
+    function getPosts(showId) {
+      const docRef = doc(db, "comments", showId.toString());
+      const getResult = async () => await getDoc(docRef);
+      getResult().then((result) => {
+        if (result.exists()) {
+          filterPosts(result.data().posts);
+        } else {
+          setReady(true);
+        }
+      });
+
+      function filterPosts(rawPosts) {
+        const postArray = Object.values(rawPosts);
+        console.log(postArray.length);
+        if (postArray.length > 0) {
+          setEmpty(false);
+        }
+        const filteredArray = postArray.filter((post) => {
+          if (parseInt(post.season) < parseInt(props.season)) {
+            return true;
+          }
+          if (
+            post.season === props.season &&
+            parseInt(post.episode) <= parseInt(props.episode)
+          ) {
+            return true;
+          }
+          return false;
+        });
+        sortPosts(filteredArray);
+      }
+
+      function sortPosts(filteredPosts) {
+        filteredPosts.sort((a, b) => {
+          return b.timestamp.seconds - a.timestamp.seconds;
+        });
+        setPosts(filteredPosts);
+        setReady(true);
+      }
+    }
   }, [props.showId, props.posting, props, ready]);
 
   if (!ready) return null;

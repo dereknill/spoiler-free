@@ -1,24 +1,44 @@
 import { useNavigate } from "react-router-dom";
 import Post from "./Post";
 import CreateReply from "./CreateReply";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
+import { db } from "../index";
 import Reply from "./Reply";
+import { doc, updateDoc, increment } from "firebase/firestore";
+import uuid from "react-uuid";
 
 function ViewPost(props) {
   const navigate = useNavigate();
   const post = props.post;
   const [replying, setReplying] = useState(false);
-  const replyRef = useRef();
 
   function handleReply(event) {
     event.preventDefault();
-    replyRef.current.scrollIntoView({ behavior: "smooth" });
     setReplying(true);
   }
 
+  useEffect(() => {
+    if (replying) {
+      window.scrollTo({ top: window.innerHeight, left: 0, behavior: "smooth" });
+    }
+  }, [replying]);
+
+  useEffect(() => {
+    const docRef = doc(db, "comments", props.showid.toString());
+    const key = `posts.${props.postid}.views`;
+    const update = async () =>
+      await updateDoc(docRef, {
+        [key]: increment(1),
+      });
+
+    update().then(() => {
+      console.log("updated");
+    });
+  }, [props.showid, props.postid]);
+
   function displayReplies(replies) {
     return replies.map((reply) => {
-      return <Reply reply={reply}></Reply>;
+      return <Reply reply={reply} key={uuid()}></Reply>;
     });
   }
   return (
@@ -59,14 +79,14 @@ function ViewPost(props) {
         <Post post={post}></Post>
         {displayReplies(post.replies)}
       </div>
-      <div ref={replyRef} className='px-1 md:px-5 mb-2'>
+      <div className='px-1 md:px-5 mb-2'>
         {replying && (
           <CreateReply
             postid={props.postid}
             showid={props.showid}
             user={props.user}
             setReplying={setReplying}
-            replyRef={replyRef}
+            setForumReady={props.setForumReady}
           ></CreateReply>
         )}
       </div>

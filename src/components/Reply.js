@@ -12,7 +12,7 @@ function Reply(props) {
     <article className='shadow-lg bg-slate-100 shadow-slate-600/50 rounded'>
       <div className='bg-slate-100 py-2 rounded-t px-4 flex flex-col sm:flex-row gap-2 justify-between'>
         <div>
-          <h3 className='text-black/50 flex flex-col'>
+          <h3 className='text-black/75 flex flex-col'>
             {`Posted by ${reply.displayName}`}{" "}
             <span className='ml-0'>{formatDate(reply.timestamp)}</span>
           </h3>

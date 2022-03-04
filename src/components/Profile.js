@@ -3,6 +3,8 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import FormInput from "./utils/FormInput";
 import {
   getAuth,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
   updateProfile,
   updateEmail,
   updatePassword,
@@ -17,6 +19,7 @@ function Profile(props) {
   const [edit, setEdit] = useState(false);
   const [editPassword, setEditPassword] = useState(false);
   const [error, setError] = useState(null);
+  const [reauth, setReauth] = useState("");
   const navigate = useNavigate();
   const [user] = useOutletContext();
 
@@ -42,18 +45,33 @@ function Profile(props) {
           console.log(error);
         });
     } else if (editPassword) {
-      if (
-        password.length > 0 &&
-        passwordConfirm.length > 0 &&
-        password === passwordConfirm
-      ) {
-        const auth = getAuth();
-        updatePassword(auth.currentUser, password).then(() => {
-          setEditPassword(false);
+      const auth = getAuth();
+      const credential = EmailAuthProvider.credential(
+        auth.currentUser.email,
+        reauth
+      );
+      const reauthenticate = async () =>
+        await reauthenticateWithCredential(auth.currentUser, credential);
+
+      reauthenticate()
+        .then(() => {
+          if (
+            password.length > 0 &&
+            passwordConfirm.length > 0 &&
+            password === passwordConfirm
+          ) {
+            const auth = getAuth();
+            updatePassword(auth.currentUser, password).then(() => {
+              setEditPassword(false);
+            });
+          } else {
+            setError("Password must match");
+          }
+        })
+        .catch((error) => {
+          setError("Error reauthenticating");
+          return;
         });
-      } else {
-        setError("Password must match");
-      }
     }
   }
 
@@ -124,7 +142,7 @@ function Profile(props) {
     }
   }
   return (
-    <div className='w-full absolute rounded-xl h-full bg-slate-600'>
+    <div className='w-full rounded-xl min-h-screen bg-slate-600 pt-5 md:pt-10 pb-10'>
       <section className='mb-10 mt-5 md:mt-10 w-96 mx-auto max-w-[95%] bg-slate-300 p-5 rounded shadow-lg shadow-black/75'>
         <h2 className='text-center mb-4 text-xl font-bold'>Profile</h2>
         <form className='flex flex-col gap-5 mb-4'>
@@ -144,6 +162,12 @@ function Profile(props) {
           ></FormInput>
           {editPassword && (
             <div className='flex flex-col gap-5'>
+              <FormInput
+                type='password'
+                name='old_password'
+                value={reauth}
+                change={setReauth}
+              ></FormInput>
               <FormInput
                 type='password'
                 name='new_password'

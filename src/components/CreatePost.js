@@ -12,7 +12,8 @@ function CreatePost(props) {
     const docRef = doc(db, `comments`, props.showId.toString());
     if (props.user) {
       if (props.postsExist) {
-        const key = `posts.${uuid()}`;
+        const id = uuid();
+        const key = `posts.${id}`;
         const updatePost = async () =>
           await updateDoc(docRef, {
             [key]: {
@@ -25,6 +26,7 @@ function CreatePost(props) {
               views: 0,
               timestamp: Timestamp.fromDate(new Date()),
               uid: props.user.uid,
+              id: id,
             },
           });
 
@@ -37,10 +39,11 @@ function CreatePost(props) {
             console.log(error);
           });
       } else {
+        const id = uuid();
         const create = async () =>
           await setDoc(docRef, {
             posts: {
-              [uuid()]: {
+              [id]: {
                 displayName: props.user.displayName,
                 episode: props.episode,
                 season: props.season,
@@ -50,12 +53,14 @@ function CreatePost(props) {
                 views: 0,
                 timestamp: Timestamp.fromDate(new Date()),
                 uid: props.user.uid,
+                id: id,
               },
             },
           });
 
         create().then((result) => {
           props.setPosting(false);
+          props.setForumReady(false);
         });
       }
     }

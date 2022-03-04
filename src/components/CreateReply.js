@@ -25,6 +25,7 @@ function CreateReply(props) {
     updateReply()
       .then((result) => {
         props.setReplying(false);
+        props.setForumReady(false);
       })
       .catch((error) => {
         console.log(error);

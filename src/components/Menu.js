@@ -31,7 +31,7 @@ function Menu(props) {
   function handleAccountClick(event) {
     event.preventDefault();
     handleExitMenu(event);
-    navigate(event.target.getAttribute("path"));
+    navigate(event.currentTarget.getAttribute("path"));
   }
 
   function displayUser() {

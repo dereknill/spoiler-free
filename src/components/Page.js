@@ -19,14 +19,6 @@ function Page(props) {
     }
   });
 
-  // useEffect(() => {
-  //   const docRef = doc(db, "comments", "vzCsksKSoSNtbIXiBzYq");
-  //   const getResult = async ()  => await getDoc(docRef);
-
-  //   getResult().then((result) => {
-  //     console.log(result.data());
-  //   });
-  // }, []);
   return (
     <div>
       <div

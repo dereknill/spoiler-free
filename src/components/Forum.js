@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { db } from "../index";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, query } from "firebase/firestore";
 import PostPreview from "./PostPreview";
 import ViewPost from "./ViewPost";
 import CreatePost from "./CreatePost";
 import { useNavigate } from "react-router-dom";
 
 function Forum(props) {
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
   const [ready, setReady] = useState(false);
+  const [empty, setEmpty] = useState(true);
   const navigate = useNavigate();
 
   function handlePostClick(event) {
     event.preventDefault();
     const postid = event.currentTarget.getAttribute("postid");
-
     navigate(`/shows/${props.showId}/discussion/${postid}`);
   }
 
@@ -23,22 +23,65 @@ function Forum(props) {
     const getResult = async () => await getDoc(docRef);
     getResult().then((result) => {
       if (result.exists()) {
-        setPosts(result.data().posts);
+        filterPosts(result.data().posts);
+      } else {
+        setReady(true);
       }
-      setReady(true);
     });
   }
 
-  function displayPosts() {
-    if (!posts) {
-      return <h2>Be the first to post about this show!</h2>;
+  function filterPosts(rawPosts) {
+    const postArray = Object.values(rawPosts);
+    console.log(postArray.length);
+    if (postArray.length > 0) {
+      setEmpty(false);
     }
-    return Object.keys(posts).map((key, index) => {
+    const filteredArray = postArray.filter((post) => {
+      if (parseInt(post.season) < parseInt(props.season)) {
+        return true;
+      }
+      if (
+        post.season === props.season &&
+        parseInt(post.episode) <= parseInt(props.episode)
+      ) {
+        return true;
+      }
+      return false;
+    });
+    sortPosts(filteredArray);
+  }
+
+  function sortPosts(filteredPosts) {
+    filteredPosts.sort((a, b) => {
+      return b.timestamp.seconds - a.timestamp.seconds;
+    });
+    setPosts(filteredPosts);
+    setReady(true);
+  }
+
+  function displayPosts() {
+    if (posts.length < 1) {
+      if (empty) {
+        return (
+          <h2 className='my-3 text-center'>
+            Be the first to post about this show!
+          </h2>
+        );
+      } else {
+        return (
+          <h2 className='my-3 text-center'>
+            No spoiler free posts that match your watch progress
+          </h2>
+        );
+      }
+    }
+
+    return posts.map((post) => {
       return (
         <PostPreview
-          post={posts[key]}
-          key={key}
-          postid={key}
+          post={post}
+          key={post.id}
+          postid={post.id}
           click={handlePostClick}
         ></PostPreview>
       );
@@ -59,11 +102,12 @@ function Forum(props) {
     return (
       <section className='flex flex-col gap-2 min-h-[800px] rounded-b-2xl'>
         <ViewPost
-          post={posts[props.postid]}
+          post={posts.find((post) => post.id === props.postid)}
           showName={props.showName}
           showid={props.showId}
           postid={props.postid}
           user={props.user}
+          setForumReady={setReady}
         ></ViewPost>
       </section>
     );
@@ -74,10 +118,11 @@ function Forum(props) {
         <CreatePost
           showId={props.showId}
           setPosting={props.setPosting}
-          postsExist={posts ? true : false}
+          postsExist={posts.length > 0}
           season={props.season}
           episode={props.episode}
           user={props.user}
+          setForumReady={setReady}
         ></CreatePost>
       </section>
     );

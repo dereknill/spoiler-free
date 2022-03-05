@@ -69,6 +69,7 @@ function ViewPost(props) {
           className='bg-slate-900 text-white rounded px-3 py-1 mt-2 hover:darker-bg w-full sm:w-fit'
           onClick={(event) => {
             event.preventDefault();
+            props.setForumReady(false);
             navigate(`/shows/${props.showid}/discussion`);
           }}
         >

@@ -15,7 +15,9 @@ function Post(props) {
           <h2 className='font-bold text-lg text-slate-800'>{post.title}</h2>
           <h3 className='text-black/75'>{`Season ${post.season}, Episode ${post.episode}`}</h3>
           <h3 className='text-black/75 flex flex-col'>
-            {`Posted by ${post.displayName}`}{" "}
+            <div>
+              Posted by <span className='font-bold'>{post.displayName}</span>{" "}
+            </div>
             <span className='ml-0'>{formatDate(post.timestamp)}</span>
           </h3>
         </div>

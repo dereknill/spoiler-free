@@ -36,7 +36,7 @@ function Search(props) {
   }, [params.query]);
 
   function displaySearchResults(results) {
-    return results.map((result) => {
+    return results.map((result, index) => {
       return (
         <div key={result.id}>
           <Link to={`/shows/${result.id}`}>
@@ -67,7 +67,9 @@ function Search(props) {
               </div>
             </button>
           </Link>
-          <LineBreak type='margin-4'></LineBreak>
+          {index < results.length - 1 && (
+            <LineBreak type='margin-4'></LineBreak>
+          )}
         </div>
       );
     });

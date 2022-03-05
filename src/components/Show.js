@@ -50,7 +50,7 @@ function Show(props) {
   }
 
   if (notFound) {
-    return "Show not found";
+    return <h2 className='p-10'>Show not found</h2>;
   }
   if (!isReady) {
     return null;

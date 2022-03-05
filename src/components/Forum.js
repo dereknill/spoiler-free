@@ -10,6 +10,7 @@ function Forum(props) {
   const [posts, setPosts] = useState([]);
   const [ready, setReady] = useState(false);
   const [empty, setEmpty] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   function handlePostClick(event) {
@@ -57,13 +58,17 @@ function Forum(props) {
     function getPosts(showId) {
       const docRef = doc(db, "comments", showId.toString());
       const getResult = async () => await getDoc(docRef);
-      getResult().then((result) => {
-        if (result.exists()) {
-          filterPosts(result.data().posts);
-        } else {
-          setReady(true);
-        }
-      });
+      getResult()
+        .then((result) => {
+          if (result.exists() && result.ok) {
+            filterPosts(result.data().posts);
+          } else {
+            setReady(true);
+          }
+        })
+        .catch((error) => {
+          setError("post not found");
+        });
 
       function filterPosts(rawPosts) {
         const postArray = Object.values(rawPosts);
@@ -98,6 +103,13 @@ function Forum(props) {
 
   if (!ready) return null;
 
+  if (error) {
+    return (
+      <section className='flex flex-col gap-2 min-h-[800px] rounded-b-2xl'>
+        {error}
+      </section>
+    );
+  }
   if (props.postid) {
     return (
       <section className='flex flex-col gap-2 min-h-[800px] rounded-b-2xl'>

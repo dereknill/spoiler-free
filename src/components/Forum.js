@@ -60,7 +60,7 @@ function Forum(props) {
       const getResult = async () => await getDoc(docRef);
       getResult()
         .then((result) => {
-          if (result.exists() && result.ok) {
+          if (result.exists()) {
             filterPosts(result.data().posts);
           } else {
             setReady(true);

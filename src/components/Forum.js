@@ -5,12 +5,15 @@ import PostPreview from "./PostPreview";
 import ViewPost from "./ViewPost";
 import CreatePost from "./CreatePost";
 import { useNavigate } from "react-router-dom";
+import PageSelector from "./utils/PageSelector";
 
 function Forum(props) {
   const [posts, setPosts] = useState([]);
   const [ready, setReady] = useState(false);
   const [empty, setEmpty] = useState(true);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(0);
+  const [numPages, setNumPages] = useState(0);
   const navigate = useNavigate();
 
   function handlePostClick(event) {
@@ -20,6 +23,7 @@ function Forum(props) {
   }
 
   function displayPosts() {
+    console.log(page);
     if (posts.length < 1) {
       if (empty) {
         return (
@@ -36,16 +40,22 @@ function Forum(props) {
       }
     }
 
-    return posts.map((post) => {
-      return (
-        <PostPreview
-          post={post}
-          key={post.id}
-          postid={post.id}
-          click={handlePostClick}
-        ></PostPreview>
-      );
-    });
+    const firstIndex = page * 10;
+    const lastIndex = firstIndex + 9;
+    return posts
+      .filter((post, index) => {
+        return index >= firstIndex && index <= lastIndex;
+      })
+      .map((post, index) => {
+        return (
+          <PostPreview
+            post={post}
+            key={post.id}
+            postid={post.id}
+            click={handlePostClick}
+          ></PostPreview>
+        );
+      });
   }
   useEffect(() => {
     if (!ready) {
@@ -72,7 +82,6 @@ function Forum(props) {
 
       function filterPosts(rawPosts) {
         const postArray = Object.values(rawPosts);
-        console.log(postArray.length);
         if (postArray.length > 0) {
           setEmpty(false);
         }
@@ -96,6 +105,7 @@ function Forum(props) {
           return b.timestamp.seconds - a.timestamp.seconds;
         });
         setPosts(filteredPosts);
+        setNumPages(Math.ceil(filteredPosts.length / 10));
         setReady(true);
       }
     }
@@ -148,7 +158,13 @@ function Forum(props) {
       >
         New Post
       </button>
+
       {displayPosts()}
+      <PageSelector
+        page={page}
+        setPage={setPage}
+        numPages={numPages}
+      ></PageSelector>
     </section>
   );
 }

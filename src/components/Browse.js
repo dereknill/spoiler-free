@@ -11,7 +11,7 @@ function Browse(props) {
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=${params.id}&include_null_first_air_dates=false`
+      `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=${params.id}&include_null_first_air_dates=false&adult=false`
     )
       .then((response) => {
         if (response.ok) {

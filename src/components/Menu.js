@@ -82,9 +82,25 @@ function Menu(props) {
             </button>
           </li>
           <LineBreak margin='2'></LineBreak>
-          <li className='px-2 font-bold'>Shows</li>
+          <li className='px-2 font-bold'>
+            <button
+              onClick={handleAccountClick}
+              path='/myshows'
+              className='font-bold hover:underline'
+            >
+              Shows
+            </button>
+          </li>
           <LineBreak margin='2'></LineBreak>
-          <li className='px-2 font-bold'>Posts</li>
+          <li className='px-2 font-bold'>
+            <button
+              onClick={handleAccountClick}
+              path='/myposts'
+              className='font-bold hover:underline'
+            >
+              Posts
+            </button>
+          </li>
           <LineBreak margin='2'></LineBreak>
           {displaySignInOut()}
         </ul>
@@ -105,17 +121,7 @@ function Menu(props) {
             </button>
           </li>
           <LineBreak margin='2'></LineBreak>
-          <li className='px-2 font-bold'>
-            <button
-              id='16'
-              genre='Animation'
-              onClick={handleGenreLink}
-              className='font-bold hover:underline'
-            >
-              Animation
-            </button>
-          </li>
-          <LineBreak margin='2'></LineBreak>
+
           <li className='px-2 font-bold'>
             <button
               id='35'

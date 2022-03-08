@@ -23,7 +23,6 @@ function Forum(props) {
   }
 
   function displayPosts() {
-    console.log(page);
     if (posts.length < 1) {
       if (empty) {
         return (

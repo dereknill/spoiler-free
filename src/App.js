@@ -10,6 +10,8 @@ import SignUp from "./components/SignUp";
 import Profile from "./components/Profile";
 import Discussion from "./components/Discussion";
 import ScrollToTop from "./components/utils/ScrollToTop";
+import MyShows from "./components/MyShows";
+import MyPosts from "./components/MyPosts";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       <ScrollToTop></ScrollToTop>
       <Routes>
         <Route path='/' element={<Page />}>
+          <Route path='myshows' element={<MyShows></MyShows>}></Route>
+          <Route path='myposts' element={<MyPosts></MyPosts>}></Route>
           <Route path='/' element={<Homepage></Homepage>}></Route>
           <Route path='shows' element={<Show />}>
             <Route path=':id' element={<ShowInfo></ShowInfo>}></Route>

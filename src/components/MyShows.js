@@ -1,4 +1,4 @@
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { apiKey, db } from "../index";
 import LineBreak from "./utils/LineBreak";
@@ -12,6 +12,7 @@ function MyShows(props) {
   const [ready, setReady] = useState(false);
   const [page, setPage] = useState(0);
   const [numPages, setNumPages] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -21,8 +22,10 @@ function MyShows(props) {
       getShows().then((result) => {
         setShowids(Object.keys(result.data().shows));
       });
+    } else {
+      navigate("/signin");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   useEffect(() => {
     if (showids) {

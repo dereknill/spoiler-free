@@ -36,8 +36,10 @@ function MyPosts(props) {
         setNumPages(Math.ceil(posts.length / 10));
         setReady(true);
       });
+    } else {
+      navigate("/signin");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   function handlePostClick(event) {
     event.preventDefault();

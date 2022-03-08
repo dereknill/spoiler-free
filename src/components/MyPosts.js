@@ -15,7 +15,6 @@ function MyPosts(props) {
 
   useEffect(() => {
     if (user) {
-      setNumPages(0);
       const collectionRef = collection(db, "comments");
       const getAllComments = async () => await getDocs(collectionRef);
 
@@ -34,6 +33,7 @@ function MyPosts(props) {
           });
         });
         setPosts(posts);
+        setNumPages(Math.ceil(posts.length / 10));
         setReady(true);
       });
     }
@@ -42,7 +42,8 @@ function MyPosts(props) {
   function handlePostClick(event) {
     event.preventDefault();
     const postid = event.currentTarget.getAttribute("postid");
-    navigate(`/shows/${props.showId}/discussion/${postid}`);
+    const showid = event.currentTarget.getAttribute("showid");
+    navigate(`/shows/${showid}/discussion/${postid}`);
   }
 
   function displayPosts(posts) {
@@ -50,16 +51,22 @@ function MyPosts(props) {
       return <h2>No posts found</h2>;
     }
 
-    return posts.map((post) => {
-      return (
-        <PostPreview
-          post={post}
-          key={post.id}
-          postid={post.id}
-          click={handlePostClick}
-        ></PostPreview>
-      );
-    });
+    const firstIndex = page * 10;
+    const lastIndex = firstIndex + 9;
+    return posts
+      .filter((post, index) => index >= firstIndex && index <= lastIndex)
+      .map((post) => {
+        return (
+          <PostPreview
+            post={post}
+            key={post.id}
+            postid={post.id}
+            showid={post.showid}
+            showName={post.showName}
+            click={handlePostClick}
+          ></PostPreview>
+        );
+      });
   }
   if (!ready) {
     return null;

@@ -1,17 +1,27 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { apiKey } from "../index";
 import LineBreak from "./utils/LineBreak";
+import BrowseSelector from "./utils/BrowseSelector";
 
 function Search(props) {
   const params = useParams();
+  const context = useOutletContext();
   const [results, setResults] = useState(null);
   const [isReady, setIsReady] = useState(false);
-  const [notFound, setNotFound] = useState(false);
+  const [notFound, setNotFound] = useState(null);
+  const [page, setPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
 
   useEffect(() => {
+    let currentPage = page;
+    if (context[1]) {
+      setPage(1);
+      currentPage = 1;
+      context[2](false);
+    }
     fetch(
-      `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&page=1&include_adult=false&query=${params.query}`
+      `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&page=${currentPage}&include_adult=false&query=${params.query}`
     )
       .then((response) => {
         if (response.ok) {
@@ -23,17 +33,39 @@ function Search(props) {
       .then((jsonData) => {
         if (jsonData.results.length > 0) {
           setResults(jsonData.results);
-          setIsReady(true);
+          fetch(
+            `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&page=${
+              page + 1
+            }&include_adult=false&query=${params.query}`
+          )
+            .then((response) => {
+              if (response.ok) {
+                return response.json();
+              } else {
+                setHasNextPage(false);
+                throw new Error("error");
+              }
+            })
+            .then((jsonData) => {
+              if (jsonData.results.length > 0) {
+                setHasNextPage(true);
+              } else {
+                setHasNextPage(false);
+              }
+              setIsReady(true);
+            });
         } else {
           throw new Error("Error");
         }
       })
       .catch((error) => {
-        setNotFound(true);
+        setNotFound("Your search does not match any TV shows");
       });
 
-    return setNotFound(false);
-  }, [params.query]);
+    return () => {
+      setNotFound(null);
+    };
+  }, [params.query, page, context]);
 
   function displaySearchResults(results) {
     return results.map((result, index) => {
@@ -76,17 +108,24 @@ function Search(props) {
   }
 
   if (notFound) {
-    return <h2>Your search does not match any TV shows</h2>;
+    return <h2 className='pt-5 text-center font-bold'>{notFound}</h2>;
   }
   if (!isReady) {
     return null;
   }
   return (
     <div className='mb-4 flex justify-center flex-col'>
-      <h2 className='flex items-center pl-10 w-full bg-slate-400 h-10 rounded-t-2xl'>
+      <h2 className='flex items-center justify-center font-bold w-full bg-slate-400 h-10 rounded-t-2xl'>
         Search Results: {params.query}
       </h2>
-      <section className='my-4'>{displaySearchResults(results)}</section>
+      <section className='my-4'>
+        {displaySearchResults(results)}
+        <BrowseSelector
+          page={page}
+          setPage={setPage}
+          hasShows={hasNextPage}
+        ></BrowseSelector>
+      </section>
     </div>
   );
 }

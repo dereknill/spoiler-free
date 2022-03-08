@@ -27,6 +27,8 @@ function CreatePost(props) {
               timestamp: Timestamp.fromDate(new Date()),
               uid: props.user.uid,
               id: id,
+              showName: props.showName,
+              showid: props.showId,
             },
           });
 
@@ -54,6 +56,8 @@ function CreatePost(props) {
                 timestamp: Timestamp.fromDate(new Date()),
                 uid: props.user.uid,
                 id: id,
+                showName: props.showName,
+                showid: props.showId,
               },
             },
           });

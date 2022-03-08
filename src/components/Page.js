@@ -9,6 +9,7 @@ function Page(props) {
   const [faded, setFaded] = useState(false);
   const [menuActive, setMenuActive] = useState(false);
   const [user, setUser] = useState(null);
+  const [newSearch, setNewSearch] = useState(true);
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
@@ -42,12 +43,13 @@ function Page(props) {
         setFaded={setFaded}
         setMenuActive={setMenuActive}
         user={user}
+        setNewSearch={setNewSearch}
       ></Header>
 
       <main
         className={`mx-auto w-[95%] bg-slate-300 max-w-screen-lg min-h-screen shadow-lg shadow-black mb-6 mt-16 lg:mt-20 rounded-2xl relative`}
       >
-        <Outlet context={[user]}></Outlet>
+        <Outlet context={[user, newSearch, setNewSearch]}></Outlet>
       </main>
       <Footer></Footer>
     </div>

@@ -2,16 +2,19 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { apiKey } from "../index";
 import LineBreak from "./utils/LineBreak";
+import BrowseSelector from "./utils/BrowseSelector";
 
 function Browse(props) {
   const params = useParams();
   const [results, setResults] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [notFound, setNotFound] = useState(false);
+  const [hasShows, setHasShows] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     fetch(
-      `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1&with_genres=${params.id}&include_null_first_air_dates=false&adult=false`
+      `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=${page}&with_genres=${params.id}&include_null_first_air_dates=false&adult=false`
     )
       .then((response) => {
         if (response.ok) {
@@ -23,6 +26,7 @@ function Browse(props) {
       .then((jsonData) => {
         if (jsonData.results.length > 0) {
           setResults(jsonData.results);
+          setHasShows(true);
           setIsReady(true);
         } else {
           throw new Error("Error");
@@ -33,7 +37,7 @@ function Browse(props) {
       });
 
     return setNotFound(false);
-  }, [params.id]);
+  }, [params.id, page]);
 
   function displaySearchResults(results) {
     return results.map((result, index) => {
@@ -83,10 +87,17 @@ function Browse(props) {
   }
   return (
     <div className='mb-4 flex justify-center flex-col'>
-      <h2 className='flex items-center pl-10 w-full bg-slate-400 h-10 rounded-t-2xl'>
+      <h2 className='flex items-center justify-center font-bold w-full bg-slate-400 h-10 rounded-t-2xl'>
         Browsing {params.genre}
       </h2>
-      <section className='my-4'>{displaySearchResults(results)}</section>
+      <section className='my-4'>
+        {displaySearchResults(results)}
+        <BrowseSelector
+          page={page}
+          setPage={setPage}
+          hasShows={hasShows}
+        ></BrowseSelector>
+      </section>
     </div>
   );
 }

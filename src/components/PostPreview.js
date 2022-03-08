@@ -12,14 +12,16 @@ function PostPreview(props) {
     <article
       onClick={props.click}
       postid={props.postid}
+      showid={props.showid}
       className='bg-slate-100 py-2 px-4 rounded flex flex-col sm:flex-row gap-2 justify-between shadow-lg shadow-slate-600/50 cursor-pointer'
     >
       <div className='max-w-[70%]'>
         <h2 className='font-bold text-lg text-slate-800'>{post.title}</h2>
+        {props.showName && <h3 className='text-black/75'>{props.showName}</h3>}
         <h3 className='text-black/75'>{`Season ${post.season}, Episode ${post.episode}`}</h3>
         <h3 className='text-black/75 flex flex-col'>
           <div>
-            Posted by <span className='font-bold'>{post.displayName}</span>{" "}
+            Posted by <span className='font-bold'>{post.displayName}</span>
           </div>
           <span className='ml-0'>{formatDate(post.timestamp)}</span>
         </h3>

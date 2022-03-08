@@ -21,6 +21,7 @@ function Header(props) {
   function handleSearch(event) {
     event.preventDefault();
     setSearchActive(false);
+    props.setNewSearch(true);
     navigate(`/search/${query}`);
   }
 

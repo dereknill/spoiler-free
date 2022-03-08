@@ -18,8 +18,8 @@ function Post(props) {
   function displayDeleteConfirm() {
     if (deleting) {
       return (
-        <div className='h-48 max-w-[95%] p-10 flex items-center justify-center flex-col gap-5 fixed z-[100000] bg-slate-400 rounded top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 shadow-lg shadow-black/50 gap-10'>
-          <div className='text-xl font-bold w-full whitespace-nowrap'>
+        <div className='h-48 w-[26rem] max-w-[85%] p-5 flex items-center justify-center flex-col gap-5 fixed z-[100000] bg-slate-400 rounded top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 shadow-lg shadow-black/50 gap-10'>
+          <div className='text-base sm:text-xl font-bold w-full text-center'>
             Are you sure you want to delete this post?
           </div>
           <div className='flex justify-between w-full'>

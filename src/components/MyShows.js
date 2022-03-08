@@ -50,9 +50,10 @@ function MyShows(props) {
   function displaySearchResults(shows) {
     const firstIndex = page * 10;
     const lastIndex = firstIndex + 9;
+
     return shows
       .filter((show, index) => index >= firstIndex && index <= lastIndex)
-      .map((show, index) => {
+      .map((show, index, array) => {
         return (
           <div key={show.id}>
             <Link to={`/shows/${show.id}`}>
@@ -83,7 +84,7 @@ function MyShows(props) {
                 </div>
               </button>
             </Link>
-            {index < shows.length - 1 && (index + 1) % 10 !== 0 && (
+            {index < array.length - 1 && (index + 1) % 10 !== 0 && (
               <LineBreak type='margin-4'></LineBreak>
             )}
           </div>

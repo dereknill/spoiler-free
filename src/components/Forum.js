@@ -144,6 +144,7 @@ function Forum(props) {
           episode={props.episode}
           user={props.user}
           setForumReady={setReady}
+          showName={props.showName}
         ></CreatePost>
       </section>
     );

@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { apiKey } from "../index";
 import LineBreak from "./utils/LineBreak";
@@ -6,6 +6,7 @@ import BrowseSelector from "./utils/BrowseSelector";
 
 function Browse(props) {
   const params = useParams();
+  const context = useOutletContext();
   const [results, setResults] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -13,6 +14,10 @@ function Browse(props) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    if (context[3]) {
+      context[4](false);
+      setPage(1);
+    }
     fetch(
       `https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=${page}&with_genres=${params.id}&include_null_first_air_dates=false&adult=false`
     )
@@ -37,7 +42,7 @@ function Browse(props) {
       });
 
     return setNotFound(false);
-  }, [params.id, page]);
+  }, [params.id, page, context]);
 
   function displaySearchResults(results) {
     return results.map((result, index) => {

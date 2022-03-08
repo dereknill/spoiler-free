@@ -17,6 +17,7 @@ function Menu(props) {
     const id = event.target.getAttribute("id");
     const genre = event.target.getAttribute("genre");
     handleExitMenu(event);
+    props.setNewBrowse(true);
     navigate(`/browse/${id}/${genre}`);
   }
 

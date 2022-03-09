@@ -3,13 +3,20 @@ import uuid from "react-uuid";
 function WatchSelector(props) {
   function displaySeasons(theDetails, userShows) {
     const seasons = theDetails.seasons;
-    const seasonWatched = userShows[theDetails.id]
-      ? userShows[theDetails.id].season
-      : -1;
+    let seasonWatched;
+    let episodeWatched;
+    if (userShows) {
+      seasonWatched = userShows[theDetails.id]
+        ? userShows[theDetails.id].season
+        : -1;
 
-    const episodeWatched = userShows[theDetails.id]
-      ? userShows[theDetails.id].episode
-      : -1;
+      episodeWatched = userShows[theDetails.id]
+        ? userShows[theDetails.id].episode
+        : -1;
+    } else {
+      seasonWatched = -1;
+      episodeWatched = -1;
+    }
 
     return seasons.map((season) => {
       let watched;

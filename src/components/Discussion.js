@@ -107,9 +107,11 @@ function Discussion(props) {
         const getResult = async () => await getDoc(docRef);
 
         getResult().then((result) => {
-          setShows(result.data().shows);
-          if (result.data().shows[details.id]) {
-            setSelecting(false);
+          if (result.data()) {
+            setShows(result.data().shows);
+            if (result.data().shows[details.id]) {
+              setSelecting(false);
+            }
           }
           setReady(true);
         });

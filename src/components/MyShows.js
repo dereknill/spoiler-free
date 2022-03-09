@@ -20,7 +20,11 @@ function MyShows(props) {
       const getShows = async () => await getDoc(docRef);
 
       getShows().then((result) => {
-        setShowids(Object.keys(result.data().shows));
+        if (result.data()) {
+          setShowids(Object.keys(result.data().shows));
+        } else {
+          setReady(true);
+        }
       });
     } else {
       navigate("/signin");
@@ -99,7 +103,16 @@ function MyShows(props) {
   }
 
   if (!shows) {
-    return <h2>No shows watched</h2>;
+    return (
+      <div className='mb-4 flex justify-center flex-col'>
+        <h2 className='flex items-center font-bold justify-center w-full bg-slate-400 h-10 rounded-t-2xl'>
+          Your Watchlist
+        </h2>
+        <section className='my-4 pl-4'>
+          <h2>No shows watched</h2>
+        </section>
+      </div>
+    );
   }
 
   return (

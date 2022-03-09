@@ -1,4 +1,4 @@
-import { Routes, Route, HashRouter } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Page from "./components/Page";
 import Homepage from "./components/Homepage";
 import Show from "./components/Show";
@@ -15,7 +15,7 @@ import MyPosts from "./components/MyPosts";
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <ScrollToTop></ScrollToTop>
       <Routes>
         <Route path='/' element={<Page />}>
@@ -40,7 +40,7 @@ function App() {
           <Route path='*' element={<Homepage></Homepage>}></Route>
         </Route>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

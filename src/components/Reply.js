@@ -20,7 +20,7 @@ function Reply(props) {
           </h3>
         </div>
       </div>
-      <div className='bg-slate-200 py-3 px-4 rounded-b whitespace-pre-line'>
+      <div className='bg-slate-200 py-3 px-4 rounded-b whitespace-pre-line break-words'>
         {reply.text}
       </div>
     </article>

@@ -35,9 +35,7 @@ function Profile(props) {
             setError("Email already attached to an account");
           } else {
             updateProfile(auth.currentUser, { displayName: name }).then(() => {
-              updateEmail(auth.currentUser, email).then(() => {
-                setEdit(false);
-              });
+              setEdit(false);
             });
           }
         })
@@ -158,7 +156,7 @@ function Profile(props) {
             name='email'
             value={email}
             change={setEmail}
-            disabled={!edit}
+            disabled={true}
           ></FormInput>
           {editPassword && (
             <div className='flex flex-col gap-5'>

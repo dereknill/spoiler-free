@@ -91,7 +91,7 @@ function Post(props) {
           </div>
         </div>
       </div>
-      <div className='bg-slate-200 py-3 px-4 rounded-b whitespace-pre-line'>
+      <div className='bg-slate-200 py-3 px-4 rounded-b whitespace-pre-line break-words'>
         <div>{post.text}</div>
         {post.uid === props.user.uid && (
           <div className='w-full flex justify-end'>

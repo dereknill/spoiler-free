@@ -100,7 +100,7 @@ function Header(props) {
 
           <div className='flex items-center shrink'>
             <Link to='/'>
-              <span className='text-white text-3xl lg:text-4xl tracking-tighter'>
+              <span className='text-white text-3xl lg:text-4xl font-sansita'>
                 Spoilerphobia
               </span>
             </Link>

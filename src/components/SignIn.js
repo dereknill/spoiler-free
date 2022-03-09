@@ -1,14 +1,36 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import LineBreak from "./utils/LineBreak";
 import { useState } from "react";
 
 function SignIn(props) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [email, setEmail] = useState("");
   function handleCreate(event) {
     event.preventDefault();
     navigate("/signup");
+  }
+
+  function handleForgotPassword(event) {
+    event.preventDefault();
+    const auth = getAuth();
+    console.log(email);
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setError("Password reset email has been sent");
+      })
+      .catch((error) => {
+        if (error.message.includes("auth/invalid-email")) {
+          setError("Invalid email");
+        } else {
+          setError("An error has occured");
+        }
+      });
   }
   function startSignIn(event) {
     event.preventDefault();
@@ -48,6 +70,10 @@ function SignIn(props) {
               name='email'
               required={true}
               className='w-full px-3 py-1 border-slate-400 rounded border'
+              value={email}
+              onChange={(event) => {
+                setEmail(event.currentTarget.value);
+              }}
             ></input>
           </div>
           <div className='w-full flex flex-col gap-1'>
@@ -55,9 +81,12 @@ function SignIn(props) {
               <label htmlFor='password' className='font-bold'>
                 Password
               </label>
-              <Link to='/' className='text-sm hover:underline'>
+              <button
+                onClick={handleForgotPassword}
+                className='text-sm hover:underline'
+              >
                 Forgot your password?
-              </Link>
+              </button>
             </div>
             <input
               type='password'

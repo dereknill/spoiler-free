@@ -8,6 +8,7 @@ module.exports = {
         montserrat: ['Montserrat", "sans-serif'],
         vollkorn: ["Vollkorn", "serif"],
         crimson: ["Crimson Pro", "serif"],
+        sansita: ["Sansita Swashed", "serif"],
       },
       colors: {
         neonred: "#FF3131",

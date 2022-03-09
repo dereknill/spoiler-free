@@ -6,7 +6,6 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   updateProfile,
-  updateEmail,
   updatePassword,
   fetchSignInMethodsForEmail,
 } from "firebase/auth";

@@ -82,6 +82,7 @@ function SignIn(props) {
                 Password
               </label>
               <button
+                type='button'
                 onClick={handleForgotPassword}
                 className='text-sm hover:underline'
               >

@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-export const apiKey = "1fc19e2dfd89d668063919143edc6e68";
+export const apiKey = process.env.REACT_APP_API;
 export const db = getFirestore();
 
 ReactDOM.render(

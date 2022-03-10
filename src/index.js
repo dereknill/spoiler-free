@@ -16,7 +16,7 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-export const apiKey = process.env.REACT_APP_API;
+export const apiKey = process.env.REACT_APP_TMDB_API;
 export const db = getFirestore();
 
 ReactDOM.render(

@@ -25,15 +25,15 @@ Clone down this repository. You will need `node` and `npm` installed globally on
 Installation:\
 `npm install`   
 
-Setup TMDB API:\
-`get API key from themoviedb.org`
-`update index.js with your API key`
+Setup TMDB API:
+* get API key from themoviedb.org
+* update index.js with your API key
 
-Setup Firebase:\
-`Create a firebase account`
-`Activate auth`
-`Create a firestore database with two root level collections: comments and users`
-`update index.js with your firebase information`
+Setup Firebase:
+* Create a firebase account
+* Activate auth
+* Create a firestore database with two root level collections: comments and users
+* update index.js with your firebase information
 
 To Start Server:\
 `npm start`  
